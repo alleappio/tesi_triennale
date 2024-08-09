@@ -1,3 +1,8 @@
 \section{Piattaforma di sviluppo}
-\subsection{GPGPU}
+In questa sezione si descrive come è stato assemplata la piattaforma per lo sviluppo e il testing.
 \subsection{Rover AgileX}
+Il veicolo scelto per lo svolgimento della tesi è un rover di marca AgileX e modello Hunter, è un veicolo terrestre comandabile tramite interfaccia CAN. Il veicolo è capace di fornire, oltre ad un interfaccia per il controllo del suddetto, una serie di dati sullo stato del veicolo, come l'odometria (ovvero lo spostamento del veicolo calcolato a partire dal movimento delle ruote).
+\subsection{GPGPU e sensore lidar}
+Altra parte importante per lo svolgimento della tesi è stato trovare un calcolatore embedded per eseguire tutta la logica di controllo ed il planning ed un sensore che dia informazioni utili per la perception.
+Per quanto riguarda il calcolatore è stato scelto di utilizzare una GPGPU (General Purpose Graphic Processing Unit) con il sistema operativo Ubuntu 20.04, mentre per il sensore è stato scelto di utilizzare un sensore Lidar, ovvero un sensore laser capace di calcolare la distanza di vari punti nell'ambiente in base al tempo che un raggio laser impiega per tornare alla sorgente.
+
