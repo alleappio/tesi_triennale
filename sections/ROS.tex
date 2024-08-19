@@ -16,6 +16,49 @@ Sorge però spontaneo domandarsi come questi nodi comunichino tra loro e come fa
 Una comunicazione ROS è formata da 3 elementi:
 \begin{itemize}
   \item Topic: Il protocollo utilizzato da ROS è di tipo publish/subscribe, ciò vuol dire che durante l'esecuzione dei nodi si vanno a creare dei topic, ovvero stringhe che utilizzano come separatore il carattere '/' e che ci permettono di suddividere tutti i diversi dati da inviare. Un esempio sono le scan lidar che vengono pubblicate sul topic "/scan". Ogni nodo può decidere se fare la subscribe a quel nodo (ovvero ricevere tutti i dati inviati attraverso esso), fare delle publish (ovvero pubblicare dati su di esso) o se semplicemente ignorarlo.
-  \item Message type: Una volta scelto un topic però si dovrà anche decidere quali informazioni saranno ammesse su questo, ROS fornisce diversi tipi di dato inviabile su un singolo topic. Un esempio è il tipo di dato utilizzato dal particle filter ovvero "Odometry messages", che descrivono la posizione (o meglio l'odometria) di un oggetto nello spazio ed è strutturanto nel seguente modo \\ inserire immagine struttura messaggio \\. tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS 
+  \item Message type: Una volta scelto un topic però si dovrà anche decidere quali informazioni saranno ammesse su questo, ROS fornisce diversi tipi di dato inviabile su un singolo topic. Un esempio è il tipo di dato utilizzato dal particle filter ovvero "Odometry messages", che descrivono la posizione (o meglio l'odometria) di un oggetto nello spazio ed è strutturanto nel seguente modo:
+
+    \begin{forest}
+      %for tree={grow'=90, circle, draw, l sep=5pt}
+      for tree={draw}
+      [Odometry
+        [Header
+          [timestamp]
+        ]
+        [Pose\_with\_covariance
+          [Pose
+            [Position
+              [x]
+              [y]
+              [z]
+            ]
+            [Orientation
+              [x]
+              [y]
+              [z]
+              [w]
+            ]
+          ]
+          [Covariance]
+        ]
+        [twist\_with\_covariance
+          [Twist
+            [Linear\_velocity
+              [x]
+              [y]
+              [z]
+            ]
+            [Angular\_velocity
+              [x]
+              [y]
+              [z]
+            ]
+          ]
+          [Covariance]
+        ]
+      ]
+    \end{forest}
+
+  tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS 
   \item Content: è il dato che dobbiamo inviare e che deve essere incapsulato nel tipo di dato fornitoci da ROS
 \end{itemize}
