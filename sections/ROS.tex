@@ -1,22 +1,31 @@
 \section{ROS}
-In questa sezione si passa alla descrizione di ROS e del suo utilizzo.
+In questa sezione si passa alla descrizione di ROS, al suo funzionamento e al suo utilizzo.
 \subsection{Nodi}
-ROS o Robotic Operating System è un insieme di librerie e strumenti utili alla creazione di applicativi dedicati al controllo di robot.
-Nello specifico ROS ci permette di creare unità di esecuzione o processi chiamati nodi. Un nodo ha la capacità di eseguire calcoli, interfacciarsi con periferiche o altro, ma la principale caratteristica di un nodo è la sua capacità di comunicare con gli altri nodi ROS in esecuzione.
-\noindent Ciò ci permette di rappresentare con ogni nodo un modulo funzionale all'esecuzione della task del robot, per fare esempi pratici lo stack utilizzato per il controllo autonomo del rover è composto da diversi nodi, i principali sono: 
-\noindent \begin{itemize}
-  \item hunter\_ros2\_node: Gestisce la comunicazione tra i nodi ROS e l'interfaccia CAN del veicolo
-  \item urg\_node: Comunica agli altri nodi la scan effettuata dal sensore lidar
-  \item particle\_filter: calcola la localizzazione del mezzo a partire dalla mappa dell'ambiente e dalla scan del sensore
-  \item telemetry\_node e control\_node: come descritto prima, gestiscono la comunicazione tra ROS ed MQTT 
+Il Robotic Operating System, comunemente noto come ROS, è una piattaforma software composta da un insieme di librerie e strumenti che facilitano lo sviluppo di applicazioni dedicate al controllo e alla gestione di sistemi robotici. ROS offre un'infrastruttura flessibile e modulare che permette agli sviluppatori di creare, testare e implementare applicazioni complesse per robot in modo efficiente.
+
+\noindent Uno degli aspetti fondamentali di ROS è la sua architettura basata su nodi, che rappresentano unità di esecuzione autonome all'interno del sistema. Un nodo può essere responsabile di una vasta gamma di funzioni, tra cui eseguire calcoli, interfacciarsi con dispositivi hardware, raccogliere dati dai sensori, e molto altro. Tuttavia, la caratteristica più distintiva di un nodo ROS è la sua capacità di comunicare in maniera integrata con altri nodi attraverso un sistema di messaggistica distribuita. Questo sistema consente ai nodi di scambiare informazioni in tempo reale, permettendo una coordinazione precisa e affidabile tra i diversi componenti di un robot.
+
+\noindent Questa struttura modulare e comunicativa rende possibile la rappresentazione di ciascuna funzione operativa del robot come un nodo distinto, favorendo una chiara separazione delle responsabilità e una maggiore facilità di sviluppo e manutenzione. Ad esempio, lo stack software utilizzato per il controllo autonomo del rover all'interno di questo progetto è costituito da una serie di nodi ROS, ognuno dei quali svolge un ruolo specifico e critico nel funzionamento complessivo del sistema.
+
+\noindent I principali nodi che compongono questo stack sono i seguenti:
+
+\begin{itemize}
+  \item \textbf{hunter\_ros2\_node}: Questo nodo è responsabile della gestione della comunicazione tra i vari nodi ROS e l'interfaccia CAN (Controller Area Network) del veicolo. Attraverso questo nodo, i comandi e le informazioni vengono trasmessi efficacemente tra il sistema di controllo e il rover, assicurando un'interazione fluida e coerente con l'hardware del veicolo.
+
+  \item \textbf{urg\_node}: Il compito di questo nodo è quello di raccogliere e trasmettere le informazioni provenienti dal sensore Lidar agli altri nodi del sistema. La scansione dell'ambiente effettuata dal Lidar viene elaborata e distribuita, fornendo dati essenziali per la navigazione autonoma e l'evitamento degli ostacoli.
+
+  \item \textbf{particle\_filter}: Questo nodo implementa un algoritmo di localizzazione basato su filtri particellari, che consente di determinare con precisione la posizione del rover rispetto alla mappa dell'ambiente circostante. Il nodo utilizza le informazioni della mappa e le scansioni del sensore Lidar per aggiornare continuamente la stima della posizione del veicolo.
+
+  \item \textbf{telemetry\_node} e \textbf{control\_node}: Questi nodi gestiscono la comunicazione tra ROS e il protocollo MQTT (Message Queuing Telemetry Transport), garantendo la trasmissione di dati di telemetria e comandi di controllo in modo efficiente e affidabile.
 \end{itemize}
-Tutti questi nodi sono capaci di comunicano tra loro per scambiarsi informazioni utili all'esecuzione del robot.
+
+\noindent Tutti questi nodi operano in sinergia, scambiandosi informazioni critiche attraverso il sistema di messaggistica ROS, contribuendo all'esecuzione coordinata delle funzioni del robot. Questo approccio modulare e interconnesso consente di affrontare in modo efficiente le complesse esigenze operative del rover, garantendo una gestione robusta e scalabile delle diverse attività richieste durante la sua operazione autonoma e remota.
 \subsection{Comunicazione tra nodi}
 Sorge però spontaneo domandarsi come questi nodi comunichino tra loro e come facciamo soprattutto a riconoscere di che tipo di informazione si tratti.
 Una comunicazione ROS è formata da 3 elementi:
 \begin{itemize}
   \item Topic: Il protocollo utilizzato da ROS è di tipo publish/subscribe, ciò vuol dire che durante l'esecuzione dei nodi si vanno a creare dei topic, ovvero stringhe che utilizzano come separatore il carattere '/' e che ci permettono di suddividere tutti i diversi dati da inviare. Un esempio sono le scan lidar che vengono pubblicate sul topic "/scan". Ogni nodo può decidere se fare la subscribe a quel nodo (ovvero ricevere tutti i dati inviati attraverso esso), fare delle publish (ovvero pubblicare dati su di esso) o se semplicemente ignorarlo.
-  \item Message type: Una volta scelto un topic però si dovrà anche decidere quali informazioni saranno ammesse su questo, ROS fornisce diversi tipi di dato inviabile su un singolo topic. Un esempio è il tipo di dato utilizzato dal particle filter ovvero "Odometry messages", che descrivono la posizione (o meglio l'odometria) di un oggetto nello spazio ed è strutturanto nel seguente modo:
+  \item Message type: Una volta scelto un topic però si dovrà anche decidere quali informazioni saranno ammesse su questo, ROS fornisce diversi tipi di dato pubblicabile su un singolo topic. Un esempio è il tipo di dato utilizzato dal particle filter e dall'odometria del mezzo, ovvero "Odometry messages", che descrivono la posizione e il movimento (o meglio l'odometria) di un oggetto nello spazio. Il messaggio specifico per l'odometria fornito da ROS è strutturanto nel seguente modo:
 
     \begin{forest}
       %for tree={grow'=90, circle, draw, l sep=5pt}
@@ -59,6 +68,7 @@ Una comunicazione ROS è formata da 3 elementi:
       ]
     \end{forest}
 
-  tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS 
+  \noindent In questo particolare messaggio come si può notare sono contenuti: la posa, ovvero la posizione e l'orientamento del veicolo rispetto al punto di partenza, ed il Twist ovvero la velocità lineare e quella angolare dell'oggetto al momento della misura.
+  \noindent Esistono molti tipi di dato forniti da ROS alcuni altri esempi sono l'ackermann message: che fornisce come dati principali una velocità ed un angolo di sterzo e viene utilizzato per comunicare al robot il movimento da compiere. Tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS. 
   \item Content: è il dato che dobbiamo inviare e che deve essere incapsulato nel tipo di dato fornitoci da ROS
 \end{itemize}
