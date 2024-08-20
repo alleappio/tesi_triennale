@@ -1,0 +1,43 @@
+{
+  "header":{
+    "timestamp":{
+      "sec": 0,
+      "nanosec": 0,
+    }
+  }
+  "pose_with_covariance":{
+    "pose":{
+      "position":{
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "orientation":{
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      }
+    },
+    "covariance":{
+      ...
+    }
+  }
+  "twist_with_covariance":{
+    "twist":{
+      "linear_velocity":{
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angular_velocity":{
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "covariance":{
+      ...
+    }
+  }
+}
