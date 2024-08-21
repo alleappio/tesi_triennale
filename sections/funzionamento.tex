@@ -12,16 +12,27 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
   \item \textbf{particle\_filter}: Implementa l'algoritmo di localizzazione chiamato particle filter, questo algoritmo sfrutta per il suo funzionamento la mappa dell'ambiente in cui il robot si sta muovendo, l'odometria del veicolo e la pointcloud del sensore Lidar. Questo nodo pubblica la posizione calcolata sul topic ROS \textit{/pf/position} sottoforma di dato \textit{Odometry}.
 \end{itemize}
 
-Passando invece al momento del planning ci si avvale di due nodi:
+\noindent Passando invece al momento del planning ci si avvale di due nodi:
 
 \begin{itemize}
   \item \textbf{path\_logger}: Permette la registrazione di un percorso quando il veicolo viene guidato manualmentequesto percorso viene poi salvato in un file apposito.
   \item \textbf{path\_logger}: Questo nodo si occupa di pubblicare un percorso preregistrato o precalcolato da seguire, il dato è pubblicato sul topic \textit{/path}.  
 \end{itemize}
 
-Andiamo infine a descrivere il funzionamento della parte di controllo, questa è infatti composta da due nodi:
+\noindent Andiamo infine a descrivere il funzionamento della parte di controllo, questa è infatti composta da due nodi:
 
 \begin{itemize}
   \item \textbf{purepursuit}: Si occupa di ricevere il percorso pubblicato sul topic \textit{/path} e a partire dalla posizione pubblicata dal nodo \textbf{particle\_filter} calcola i comandi da impartire al robot. I comandi vengono pubblicati sul topic\textit{/drive\_parameters} e sono di tipo \textit{Ackermann Stamped}, questo non è altro che un semplice tipo di messaggio ROS che incapsula il timestamp, un angolo di sterzo ed una velocità.
   \item \textbf{hunter\_ros2\_node}: Come descritto prima, questo nodo oltre a fornire l'odometria del mezzo, è anche capace di ricevere i comandi da impartire al robot. Il nodo è infatti in perenne ascolto sul topic \textit{/drive\_parameters} e ad ogni messaggio non farà altro che comunicare con l'interfaccia CAN del veicolo comunicandogli la velocità e l'angolo di sterzo da impostare.
 \end{itemize}
+
+\noindent di seguito uno schema riassuntivo di tutto il meccanismo:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/schema_guida_autonoma.png}
+  \caption{Schema rissuntivo dello stack di guida autonoma}
+  \label{Schema rissuntivo dello stack di guida autonoma}
+\end{figure}
+
+\subsection{guida remota}
+Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, è ora di passare alla pianificazione di quella remota.
