@@ -47,3 +47,22 @@ La primissima domanda da porci è quale parte dello stack diventerà remoto, ad 
 \end{itemize}
 
 \noindent Tutto il resto sarà gestito da remoto. Questo ci permette di poter scegliere con più flessibilità in quale modo pilotare il rover, si potrà infatti decidere sia di eseguire l'intero stack, senza modifiche, sulla macchina in remoto e di conseguenza inviare i comandi calcolati al mezzo, sia di poter guidare il veicolo completamente in manuale da un apposito operatore e di inviare solo i comandi scelti da quest'ultimo al veicolo.
+
+\subsection{Nodi sviluppati}
+Oltre ai nodi che già erano compresi nello stack di guida autonoma, è stato necessario sviluppare altri nodi che permettessero lo scambio di informazioni tra il veicolo e il server. Nello specifico i 3 nodi si iscriveranno a specifici topic ROS e pubblicheranno le stesse informazioni su topic MQTT.
+
+\subsubsection{MQTT telemery node}
+Il primo passaggio per il controllo remoto del mezzo è quello di trovare un modo di ricevere i dati dei sensori dal mezzo. Per questo scopo è stato sviluppato un nodo ROS capace di iscriversi ai topic necessari e che ad ogni messaggio formatti i dati in JSON e li invii tramite MQTT al server.
+I topic a cui il nodo effettua una subscribe sono:
+\begin{itemize}
+  \item \textit{/scan}: Per la ricezione della pointcloud rilevata dal sensore Lidar
+  \item \textit{/odometry}: Per la ricezione dei dati di odometria del mezzo
+\end{itemize}
+
+\noindent Una volta ricevuto il dato, questo verrà formattato in una stringa JSON contente tutti i dati del messaggio, per poi inviarla sul topic prescelto per quel particolare dato.
+
+\subsubsection{MQTT remote control}
+In secondo luogo sarà necessario permettere al nostro veicolo di ricevere i dati relativi al controllo del robot, per questa applicazione + stato creato un nodo che si iscriva al topic MQTT relativo a questi dati e che li ripubblichi sul topic ROS \textit{/drive\_parameters}. Dato che, come già descritto i dati, i dati ricevuti sui topic MQTT non sono altro che stringhe, una volta che il messaggio verrà ricevuto dal veicolo, questo dovrà processare la stringa ricevuta, per poi memorizzare i dati in un messaggio ROS, rispettando i campi.
+
+\subsubsection{MQTT server node}
+È infine stato creato un unico nodo eseguito lato server, che permetta di ricevere tutti i dati inviati dal veicolo tramite MQTT e ripubblicarli sull'istanza ROS del server e al tempo stesso ricevere i messaggi di controllo, inserirli in una stringa ed inviarli tramite MQTT al veicolo.
