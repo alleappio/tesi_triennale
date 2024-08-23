@@ -34,9 +34,9 @@ I messaggi scambiati tramite protocollo MQTT non sono altro che stringhe di test
 \subsection{Topic}
 In MQTT, come in ROS, per dividere le varie tipologie di messaggi inoltrati si utilizzano i topic, questo in realtà è esattamente il motivo per cui si è deciso di utilizzare MQTT per il controllo remoto. Grazie infatti ad una semplice stuttura dati è possibile intercambiare tra le due tipologie di topic.
 
-\noindent Ai fini del progetto è stata quindi sviluppata una classe chiamata \textit{topic\_manager} che semplifica la gestione di questi due tipi di dati. 
+\noindent Ai fini del progetto è stata quindi sviluppata una classe chiamata \textit{topic\_manager} che semplifica la gestione di questi due tipi di dati. La classe comprende 4 semplici metodi, 2 che riguardano il get ed il set di topic ROS e 2 che riguardano il get e il set dei topic MQTT, ad ogni topic MQTT è associato uno ROS e viceversa, di seguito i 4 meotodi:
 
-\lstinputlisting{samples/ros_topic_to_mqtt_topic.cpp}
+\lstinputlisting{samples/topic_manager.cpp}
 
 \noindent È inoltre utile rendere nota la diversa struttura delle due tipologie. Infatti se per i topic ROS è utile utilizzare solo pochi identificatori, alle volte di una sola parola (eg. \textit{/drive\_parameters}, \textit{/scan}, \textit{/odometry}), dato che tutto il traffico ROS è presente solo all'interno del computer di bordo, per i topic MQTT è invece necessario utilizzare topic più lunghi, comprendenti diversi campi. 
 \noindent Per fare un esempio si può illustrare il topic utilizzato nell'odometria
