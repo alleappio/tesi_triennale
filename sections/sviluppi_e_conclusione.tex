@@ -1,4 +1,27 @@
 \section{Sviluppi futuri e conclusioni}
-\subsection{Problemi}
-\subsection{Soluzioni}
+Per concludere, si va ad analizzare quali complicazioni sono state riscontrate durante lo sviluppo, quali falle rimangono ed eventuali soluzioni e sviluppi futuri e applicazioni pratiche della tesi.
+
+\subsection{Problemi ed eventuali soluzioni}
+Il primo dubbio riguardo il progetto descritto in questa tesi è sicuramente quello della latenza di rete: Applicazioni come quella della guida autonoma vengono chiamate real time, ciò vuol dire che l'esecuzione di ogni singolo pezzo dello stack deve eseguire in tempi stretti e che anche nel caso peggiore l'esecuzione non può superare una certa quantità di tempo, questa quantità viene chiamata deadline.  
+
+\noindent È quindi spontaneo porsi un dubbio, ovvero quanto l'utilizzo della rete complichi il dover far rispettare le tempistiche. Includere la rete in applicazioni real time infatti diventa rischioso, si pensa subito al caso in cui la connessione sia molto scarsa o addirittur assente, quali complicazioni questo può portare. Anche nel caso di una situazione ottimale però bisogna sempre considerare quanto l'inclusione di un protocollo di rete (sepur leggero come nel caso di MQTT) porti dell'overhead e di conseguenza delle latenze nell'esecuzione.
+
+\noindent possiamo ovviare a questi problemi (seppur limitatamente) grazie al meccanismo dei livelli di Quality Of Service che il protcollo ci fornisce, un livello basso di Quality Of Service infatti farà fare meno controlli al protocollo e di conseguenza rimuoverà un certo overhead. Anche la scelta del protocollo a livello transport influenza le latenze, se usare quindi UDP o TCP dato che notoriamente il protocollo UDP riduce di molto la complessità, a scapito però sempre della qualità del servizio.
+
+\subsection{Sviluppi futuri}
+Il progetto ai fini della tesi può considerarsi concluso, rimangono però eventuali implementazioni e test che potranno essere integrati in futuro.
+
+\noindent La prima cosa che viene in mente è l'implementazione di uno stack di sicurezza informatica che permetta l'invio dei dati del mezzo su rete pubblica completamente criptati ed oscurati ad un possibile attaccante, implementazione necessaria se si prevede di utilizzare wurdts tecnologia in casi reali.
+
+\noindent Un'ulteriore sviluppo possibile è l'aggiunta di una di una videocamera a bordo del mezzo, con la conseguente modifica del nodo di telemetria perchè possa inviare immagini della suddetta. Questo può essere utile al fine di permettere ad un operatore che si avvale della guida remota per potere vedere l'ambiente circostante in maniera più chiara rispetto che al singolo sensore Lidar.
+
+\noindent Altro aspetto da considerare sarà l'implementazione di un sistema di platooning, per permettere al  server di poter guidare oltre che un unico mezzo anche una flotta, questo può rivelarsi molto vantaggioso se si prevede l'utilizzo di questa tecnologia , ad esempio, per il trasporto di merci.
+
+\noindent Infine sarà necessario svolgere test in condizioni reali, condizioni in cui l'affidabilità alla rete sia limità o con ambienti molto complessi.
+
 \subsection{Applicazioni pratiche}
+Per concludere si procede ad elencare quali possono essere delle eventuali applicazioni pratiche di questa tecnologia.
+
+\noindent Come descritto prima, un utilizzo potrebbe essere quello della creazione di una flotta di veicoli semi-autonomi connessi a scopi di trasporto, avere una flotta infatti di rover capaci di trasportare all'interno di ambienti lavorativi grandi quantità di materiale o semi-lavorati, aiuterebbe con lo sviluppo tecnologico di un'impresa.
+
+\noindent Altro utilizzo pratico si può avere nel caso di veicoli ad utilizzo personale. Si può infatti ipotizzare uno scenario in cui il guidatore non sia in grado di controllare il veicolo in caso di emergena medica e che quindi si avvalga ad un servizio che preveda un operatore pronto a connettersi che possa pilotare il mezzo a distanza, o addirittura ad un servizio di guida autonoma che possa guidare il veicolo fino all'ospedale più vicino. 
