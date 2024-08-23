@@ -4,39 +4,15 @@
 \usepackage{xcolor}
 \usepackage{forest} %p Per disegnare grafi
 
-\colorlet{punct}{red!60!black}
-\definecolor{background}{HTML}{EEEEEE}
-\definecolor{delim}{RGB}{20,105,176}
-\colorlet{numb}{magenta!60!black}
+\definecolor{pc_background}{rgb}{0.96, 0.96, 0.96} % Background light grey
+\definecolor{pc_text}{rgb}{0.15, 0.15, 0.15}       % Dark text
+\definecolor{pc_comment}{rgb}{0.45, 0.64, 0.82}    % Blueish comments
+\definecolor{pc_keyword}{rgb}{0.86, 0.13, 0.13}    % Reddish keywords
+\definecolor{pc_string}{rgb}{0.25, 0.50, 0.20}     % Greenish strings
+\definecolor{pc_type}{rgb}{0.70, 0.13, 0.54}       % Magenta types
+\definecolor{pc_function}{rgb}{0.35, 0.35, 0.75}   % Purple functions
+\definecolor{pc_number}{rgb}{0.63, 0.37, 0.09}     % Orange numbers
 
-\lstdefinelanguage{json}{
-    basicstyle=\normalfont\ttfamily,
-    numbers=left,
-    numberstyle=\scriptsize,
-    stepnumber=1,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frame=lines,
-    backgroundcolor=\color{background},
-    literate=
-     *{0}{{{\color{numb}0}}}{1}
-      {1}{{{\color{numb}1}}}{1}
-      {2}{{{\color{numb}2}}}{1}
-      {3}{{{\color{numb}3}}}{1}
-      {4}{{{\color{numb}4}}}{1}
-      {5}{{{\color{numb}5}}}{1}
-      {6}{{{\color{numb}6}}}{1}
-      {7}{{{\color{numb}7}}}{1}
-      {8}{{{\color{numb}8}}}{1}
-      {9}{{{\color{numb}9}}}{1}
-      {:}{{{\color{punct}{:}}}}{1}
-      {,}{{{\color{punct}{,}}}}{1}
-      {\{}{{{\color{delim}{\{}}}}{1}
-      {\}}{{{\color{delim}{\}}}}}{1}
-      {[}{{{\color{delim}{[}}}}{1}
-      {]}{{{\color{delim}{]}}}}{1},
-}
 
 \title{Università degli studi di Modena e Reggio Emilia\\
         Dipartimento di ingegneria "Enzo Ferrari"}
@@ -45,30 +21,19 @@
 \date{2024}
 
 \begin{document}
-
 \lstset{
-    basicstyle=\ttfamily,
-    keywordstyle=\color{blue},
-    stringstyle=\color{orange},
-    commentstyle=\color{green},
-    showstringspaces=false,
-    breaklines=true,
-    frame=single
-}
-\lstset{
-    language=C++,                     % Linguaggio del codice
-    backgroundcolor=\color{background},
-    basicstyle=\ttfamily\small,       % Stile del font
-    keywordstyle=\color{blue},        % Colore delle keyword
-    stringstyle=\color{orange},       % Colore delle stringhe
-    commentstyle=\color{green},       % Colore dei commenti
-    showstringspaces=false,           % Non mostra gli spazi nelle stringhe
-    numbers=left,                     % Numerazione delle righe a sinistra
-    numberstyle=\tiny\color{gray},    % Stile della numerazione
-    stepnumber=1,                     % Ogni riga numerata
-    breaklines=true,                  % A capo automatico delle righe lunghe
-    frame=single,                     % Cornice attorno al codice
-    captionpos=b,                     % Posizione del titolo: b (bottom)
+  language=C++,                     % Linguaggio del codice
+  basicstyle=\ttfamily\color{pc_text},   % Stile di base: monospazio e colore del testo
+  backgroundcolor=\color{pc_background}, % Colore di sfondo
+  commentstyle=\color{pc_comment},       % Colore dei commenti
+  keywordstyle=\color{pc_keyword}\bfseries, % Colore e stile delle parole chiave
+  stringstyle=\color{pc_string},         % Colore delle stringhe
+  numberstyle=\tiny\color{pc_number},    % Colore dei numeri di riga
+  identifierstyle=\color{pc_text},       % Colore delle variabili e identificatori
+  frame=single,          % Cornice attorno al codice
+  breaklines=true,
+  numberstyle=\tiny\color{gray},    % Stile della numerazione
+  numbers=left                     % Numerazione delle righe a sinistra
 }
 
 \input{first_page.tex}
