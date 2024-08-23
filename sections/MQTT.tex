@@ -32,8 +32,24 @@ I messaggi scambiati tramite protocollo MQTT non sono altro che stringhe di test
 \noindent Come si può vedere grazie a questa struttura è possibile rappresentare fedelmente i dati riportati dal messaggio ROS.
 
 \subsection{Topic}
-In MQTT, come in ROS, per dividere le varie tipologie di messaggi inoltrati si utilizzano i topic, questo in realtà è esattamente il motivo per cui si è deciso di utilizzare MQTT per il controllo remoto, infatti grazie a poche righe di codice è possibile ricavare i topic MQTT partendo da quelli ROS.
+In MQTT, come in ROS, per dividere le varie tipologie di messaggi inoltrati si utilizzano i topic, questo in realtà è esattamente il motivo per cui si è deciso di utilizzare MQTT per il controllo remoto. Grazie infatti ad una semplice stuttura dati è possibile intercambiare tra le due tipologie di topic.
 
-\noindent Conoscendo infatti la struttura dei topic ROS utilizzati e quella dei topic MQTT ci basterà eseguire il seguente codice per passare dall'uno all'altro:
+\noindent Ai fini del progetto è stata quindi sviluppata una classe chiamata \textit{topic\_manager} che semplifica la gestione di questi due tipi di dati. 
 
 \lstinputlisting{samples/ros_topic_to_mqtt_topic.cpp}
+
+\noindent È inoltre utile rendere nota la diversa struttura delle due tipologie. Infatti se per i topic ROS è utile utilizzare solo pochi identificatori, alle volte di una sola parola (eg. \textit{/drive\_parameters}, \textit{/scan}, \textit{/odometry}), dato che tutto il traffico ROS è presente solo all'interno del computer di bordo, per i topic MQTT è invece necessario utilizzare topic più lunghi, comprendenti diversi campi. 
+\noindent Per fare un esempio si può illustrare il topic utilizzato nell'odometria
+\begin{center}
+  /hipert/vehicle/rover\_1234/telemetry/odometry
+\end{center}
+
+\noindent Si elencano ora i diversi campi che compongono il topic
+
+\begin{itemize}
+  \item \textbf{/hipert}: È il campo che identifica il laboratorio che sta svolgendo la comunicazione, è utile in quanto se lo stesso broker MQTT è utilizzato da più laboratori abbiamo un filtro che ci permette di avere solo i dati rilevanti al nostro campo di interesse.
+  \item \textbf{/vehicle}: Identifica il tipo di device osservato
+  \item \textbf{/rover\_1234}: È l'effettiva stringa ID del topic, ci è utile per dare un identificatore univoco per il veicolo osservato, potremmo infatti anche avere più di un veicolo osservato e dobbiamo quindi sapere quale esattamente di questi si sta prendendo in considerazione.
+  \item \textbf{/telemetry}: Identifica il tipo di dato preso in considerazione, infatti i dati potrebbero essere di tipo \textbf{telemetry}, \textbf{control} o eventualmente altro
+  \item \textbf{/odometry}: Abbiamo infine l'esatto dato osservato, in questo caso, l'odometria del mezzo.
+\end{itemize}
