@@ -1,0 +1,16 @@
+\section{Test Svolti}
+In questa sezione si elencano i vari test che sono stati svolti, i problemi riscontrati e le soluzioni trovate.
+
+\subsection{Controllo}
+Il primo test svolto è stato sulla parte che riguarda il controllo. Si è dovuto infatti verificare che i driver ed il nodo ROS forniti da AgileX per il rover modello Hunter e dedicati al controllo ed all'analisi del mezzo fossero utilizzabili senza necessarie modifiche o se invece fossero necessari aggiustamenti o addirittura una reimplementare.
+
+\noindent Per svolgere questo test si è deciso di utilizzare un nodo ROS capace di ricevere dati da un joypad, elaborarli per poter ottenere un angolo di sterzo ed una velocità e pubblicarli sul topic ROS \textit{/drive\_parameters} sottoforma di messaggi ackermann, grazie a questo nodo infatti si poteva direttamente controllare se:
+
+\begin{itemize}
+  \item Il nodo ROS di casa AgileX comprendesse messaggi di tipo ackermann
+  \item Il driver riuscisse a convertire efficacemente i messaggi ROS in messaggi CAN, così che il rover potesse eseguire i comandi impartiti.
+\end{itemize}
+
+\noindent I primi test non sono andati a buon fine, in quanto dopo un accurata analisi si è riscontrato che il nodo ROS di casa AgileX utilizza un diverso formato di messaggi per il controllo del mezzo.
+
+\noindent La soluzione alla fine è stata quella di fare una piccola modifica al nodo ROS di casa AgileX per permettere a questo di interpretare la tipologia di messaggi corretta.
