@@ -14,3 +14,24 @@ Il primo test svolto è stato sulla parte che riguarda il controllo. Si è dovut
 \noindent I primi test non sono andati a buon fine, in quanto dopo un accurata analisi si è riscontrato che il nodo ROS di casa AgileX utilizza un diverso formato di messaggi per il controllo del mezzo.
 
 \noindent La soluzione alla fine è stata quella di fare una piccola modifica al nodo ROS di casa AgileX per permettere a questo di interpretare la tipologia di messaggi corretta.
+
+\subsection{Mappatura}
+Il secondo test è stato quello di eseguire una mappatura bidimensionale di un intero ambiente.
+
+\noindent Con mappatura bidimensionale si intende ricreare una vista dall'alto di un ambiente grazie all'utilizzo del sensore Lidar e dell'odometria del mezzo, sapendo infatti lo spostamento e la pointcloud rilevata dal sensore ed un algoritmo apposito è possibile ricreare questa mappa.
+
+\noindent Nello specifico l'algoritmo utilizzato è chiamato SLAM (Simultaneous localization and mapping), e come dice il nome è un algoritmo utilizzato per la localizzazione e mappatura simultanea in un ambiente, l'algoritmo è implementato dal nodo \textbf{slam\_toolbox}, scaricabile gratuitamente.
+
+\noindent Dopo un veloce setup e alcune prove si è dunque riusciti a ricreare una mappa fedele del primo piano dell'edificio di matematica del dipartimento di scienze fisiche, matematiche e informatiche di UniMoRe.
+
+\subsection{Localizzazione}
+Il terzo test è stato uno dei più importanti, questo riguarda la localizzazione.
+
+\noindent Avendo una mappa dell'ambiente grazie ai test precedenti è stato infatti possibile provare ad avere una localizzazione all'interno dell'ambiente ricostruito, questo grazie al \textbf{particle\_filter}, algoritmo già discusso precedentemente.
+
+\noindent I test in questo caso sono stati inconcludenti, è stato infatti notato che in alcuni punti dell'ambiente il particle filter non raggiungeva una precisione soddisfacente, questo a causa dell'ambiente stesso che risultava "feaureless", ovvero non vi erano differenze particolarmente apprezzabili tra due punti distinti della mappa.
+
+\noindent Una soluzione a questo problema può essere sicuramente quella di utilizzare un Lidar più avanzato a tre dimensioni, in modo da apprezzare feature dell'ambiente che non sarebbero altrimenti rilevabili in due dimensioni, soluzione che sta venendo sperimentata al momento della stesura della presente tesi.
+
+\subsection{Guida autonoma}
+Uno degli ultimi test svolti è stato quello dello stack completo di guida autonoma. 
