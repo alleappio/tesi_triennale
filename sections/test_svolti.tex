@@ -2,40 +2,38 @@
 In questa sezione si elencano i vari test che sono stati svolti, i problemi riscontrati e le soluzioni trovate.
 
 \subsection{Controllo}
-Il primo test svolto è stato sulla parte che riguarda il controllo. Si è dovuto infatti verificare che i driver ed il nodo ROS forniti da AgileX per il rover modello Hunter e dedicati al controllo ed all'analisi del mezzo fossero utilizzabili senza necessarie modifiche o se invece fossero necessari aggiustamenti o addirittura una reimplementare.
+La prima fase sperimentale è stata dedicata alla verifica funzionale dei driver e del nodo ROS forniti da AgileX per il rover modello Hunter. L'obiettivo primario era determinare se tali componenti, specificamente progettati per il controllo e l'analisi del veicolo, potessero essere integrati nel sistema senza richiedere modifiche sostanziali o se, al contrario, fosse necessario apportare adattamenti o addirittura una completa riscrittura.
 
-\noindent Per svolgere questo test si è deciso di utilizzare un nodo ROS capace di ricevere dati da un joypad, elaborarli per poter ottenere un angolo di sterzo ed una velocità e pubblicarli sul topic ROS \textit{/drive\_parameters} sottoforma di messaggi ackermann, grazie a questo nodo infatti si poteva direttamente controllare se:
+\noindent Per condurre questa valutazione, è stato sviluppato un nodo ROS dedicato alla ricezione dei dati da un joystick. Questi dati, dopo un'elaborazione preliminare, venivano convertiti in un angolo di sterzo e una velocità, e successivamente pubblicati sul topic ROS \textit{/drive\_parameters} sotto forma di messaggi di tipo Ackermann. Tale configurazione consentiva di verificare direttamente:
 
 \begin{itemize}
-  \item Il nodo ROS di casa AgileX comprendesse messaggi di tipo ackermann
-  \item Il driver riuscisse a convertire efficacemente i messaggi ROS in messaggi CAN, così che il rover potesse eseguire i comandi impartiti.
+  \item Compatibilità del nodo ROS AgileX: Se il nodo ROS fornito dal produttore supportasse il formato dei messaggi Ackermann, comunemente utilizzato per il controllo di veicoli mobili.
+  \item Efficacia del driver: Se il driver fosse in grado di tradurre correttamente i messaggi ROS in messaggi CAN, permettendo così al rover di eseguire i comandi impartiti.
 \end{itemize}
 
-\noindent I primi test non sono andati a buon fine, in quanto dopo un accurata analisi si è riscontrato che il nodo ROS di casa AgileX utilizza un diverso formato di messaggi per il controllo del mezzo.
+\noindent I primi test non sono andati a buon fine, in quanto dopo un accurata analisi si è riscontrato che il nodo ROS di casa AgileX utilizza un diverso formato di messaggi per il controllo del mezzo, interrompendo così lo stack.
 
-\noindent La soluzione alla fine è stata quella di fare una piccola modifica al nodo ROS di casa AgileX per permettere a questo di interpretare la tipologia di messaggi corretta.
+\noindent La soluzione che si è deciso di adottare è stata di introdurre una modifica puntuale al nodo ROS AgileX. Tale modifica ha consentito al nodo di interpretare correttamente il tipo di messaggi previsto, ripristinando così la compatibilità con il resto del sistema
 
 \subsection{Mappatura}
 Il secondo test è stato quello di eseguire una mappatura bidimensionale di un intero ambiente.
 
 \noindent Con mappatura bidimensionale si intende ricreare una vista dall'alto di un ambiente grazie all'utilizzo del sensore Lidar e dell'odometria del mezzo, sapendo infatti lo spostamento e la pointcloud rilevata dal sensore ed un algoritmo apposito è possibile ricreare questa mappa.
 
-\noindent Nello specifico l'algoritmo utilizzato è chiamato SLAM (Simultaneous localization and mapping), e come dice il nome è un algoritmo utilizzato per la localizzazione e mappatura simultanea in un ambiente, l'algoritmo è implementato dal nodo \textbf{slam\_toolbox}, scaricabile gratuitamente.
+\noindent Per realizzare questa operazione, è stato impiegato un algoritmo di Simultaneous Localization and Mapping (SLAM). Come suggerisce il nome, il SLAM è una tecnica che consente di localizzare un robot all'interno di un ambiente sconosciuto e, contemporaneamente, di costruire una mappa di tale ambiente. In questo caso specifico, l'algoritmo SLAM è stato implementato nel nodo ROS \textbf{slam\_toolbox}, un pacchetto software open-source ampiamente utilizzato nella comunità robotica.
 
-\noindent Dopo un veloce setup e alcune prove si è dunque riusciti a ricreare una mappa fedele del primo piano dell'edificio di matematica del dipartimento di scienze fisiche, matematiche e informatiche di UniMoRe.
+\noindent Dopo una fase di configurazione iniziale e alcune prove preliminari, è stato possibile generare una mappa bidimensionale accurata del primo piano dell'edificio di matematica del Dipartimento di Scienze Fisiche, Matematiche e Informatiche dell'Università di Modena e Reggio Emilia (UNIMORE). La mappa ottenuta rappresenta una fedele rappresentazione planimetrica dell'ambiente, evidenziando con precisione gli ostacoli presenti e le caratteristiche geometriche delle pareti
 
 \subsection{Localizzazione}
 Il terzo test è stato uno dei più importanti, questo riguarda la localizzazione.
 
-\noindent Avendo una mappa dell'ambiente grazie ai test precedenti è stato infatti possibile provare ad avere una localizzazione all'interno dell'ambiente ricostruito, questo grazie al \textbf{particle\_filter}, algoritmo già discusso precedentemente.
+\noindent Avendo una mappa dell'ambiente grazie ai test precedenti è stato infatti possibile svolgere test volti al calcolo preciso della propria posizione all'interno di un ambiente conosciuto, questi test grazie al nodo ROS \textbf{particle\_filter}, che implementa l'algoritmo di localizzazione già discusso precedentemente.
 
-\noindent I test in questo caso sono stati inconcludenti, è stato infatti notato che in alcuni punti dell'ambiente il particle filter non raggiungeva una precisione soddisfacente, questo a causa dell'ambiente stesso che risultava "feaureless", ovvero non vi erano differenze particolarmente apprezzabili tra due punti distinti della mappa.
+\noindent I test di localizzazione condotti hanno evidenziato alcune criticità legate alla natura dell'ambiente di prova. In particolare, sono state riscontrate difficoltà nel raggiungimento di una stima accurata della posizione in determinate aree dell'ambiente, caratterizzate da una scarsità di elementi distintivi (featureless). Tale condizione ha limitato la capacità del filtro a particelle di discriminare tra posizioni potenzialmente simili, compromettendo così la precisione della localizzazione.
 
 \noindent Una soluzione a questo problema può essere sicuramente quella di utilizzare un Lidar più avanzato a tre dimensioni, in modo da apprezzare feature dell'ambiente che non sarebbero altrimenti rilevabili in due dimensioni, soluzione che sta venendo sperimentata al momento della stesura della presente tesi.
 
 \subsection{Guida autonoma}
-Uno degli ultimi test svolti è stato quello dello stack completo di guida autonoma. 
+La sperimentazione conclusiva ha avuto come obiettivo la verifica delle prestazioni complessive del sistema di navigazione autonoma. A partire dalla mappa dell'ambiente generata precedentemente e dai parametri di controllo ottimizzati, è stato pianificato un percorso di riferimento. Successivamente, il robot è stato incaricato di seguire il percorso predefinito, utilizzando l'algoritmo di localizzazione per stimare la propria posizione in tempo reale e adattare la traiettoria in base alle informazioni sensoriali acquisite.
 
-\noindent Per questo test si sono utilizzati tutti i risultati delle prove precedenti, quindi la mappa, il controllo e la localizzazione, in aggiunta ad un percorso preregistrato manualmente.
-
-\noindent I risultati di questo test sono andati a buon fine per la maggiore, l'unico punto di indeterminazione dipende dal problema sovracitato legato alla localizzazione.
+\noindent Sebbene i risultati ottenuti siano stati generalmente positivi, si sono manifestati alcuni problemi di deviazione dalla traiettoria pianificata, attribuibili alle incertezze nella stima di posizione, particolarmente evidenti nelle aree dell'ambiente prive di elementi distintivi.
