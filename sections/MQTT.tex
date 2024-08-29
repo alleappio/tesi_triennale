@@ -19,6 +19,8 @@ Il protocollo MQTT (Message Queuing Telemetry Transport) è un protocollo di ret
 
 \noindent Grazie a queste caratteristiche, MQTT è ampiamente utilizzato in una vasta gamma di applicazioni, tra cui la telemetria industriale, il monitoraggio ambientale, le smart cities, l'automazione domestica e i sistemi di gestione energetica, rappresentando una soluzione robusta ed efficiente per la comunicazione tra dispositivi eterogenei in contesti IoT.
 
+\noindent All'interno del progetto per implementare lo stack MQTT si è avvalsi della libreria paho.mqtt.cpp, una libreria open source fornita dalla eclipse foundation.
+
 \subsection{Infrastruttura}
 \noindent MQTT opera secondo un'architettura client-server, dove i client (dispositivi o applicazioni) si connettono a un server (broker) centrale che gestisce la distribuzione dei messaggi. I client che desiderano inviare dati pubblicano messaggi su specifici argomenti (topics), mentre i client interessati a ricevere quei dati si iscrivono (subscribe) agli stessi argomenti. Il broker, che agisce come intermediario, si occupa di ricevere i messaggi pubblicati e di inoltrarli a tutti i client iscritti agli argomenti corrispondenti.
 
