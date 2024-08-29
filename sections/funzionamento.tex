@@ -72,7 +72,7 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
 \noindent Il nodo è suddiviso in 6 classi:
 
 \begin{itemize}
-  \item \textbf{conf\_loader}: Si occupa di caricare i dati dai file di configurazione prima citati, nello specifico questa classe è stat implementata per rendere il main thread e il resto del processo indipendente dal formato dei file di configurazione.
+  \item \textbf{conf\_loader}: Si occupa di caricare i dati dai file di configurazione prima citati, nello specifico questa classe è stata implementata per rendere il main thread e il resto del processo indipendente dal formato dei file di configurazione.
   \item \textbf{mqtt\_publisher}: È una classe che contiene metodi utili all'invio di stringhe tramite protocollo MQTT e che si avvale della libreria paho.mqtt.cpp fornita dalla eclipse foundation. 
   \item \textbf{mqtt\_telemetry\_node}: Questa classe è quella che implementa il nodo ROS che si incaricherà di ricevere i dati utili alla telemetria.
   \item \textbf{msgs\_cache}: Questa classe implementa una semplice struttura dati che accoppia ad ogni topic ROS (rappresentata come stringa), una stringa JSON contente i dati di telemetria da inviare
@@ -81,7 +81,33 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
 \end{itemize}
 
 \subsubsection{MQTT remote control}
-In secondo luogo sarà necessario permettere al nostro veicolo di ricevere i dati relativi al controllo del robot, per questa applicazione + stato creato un nodo che si iscriva al topic MQTT relativo a questi dati e che li ripubblichi sul topic ROS \textit{/drive\_parameters}. Dato che, come già descritto i dati, i dati ricevuti sui topic MQTT non sono altro che stringhe, una volta che il messaggio verrà ricevuto dal veicolo, questo dovrà processare la stringa ricevuta, per poi memorizzare i dati in un messaggio ROS, rispettando i campi.
+In secondo luogo, è fondamentale predisporre un meccanismo che consenta al veicolo di ricevere i comandi di controllo. A tal fine, è stato implementato un nodo dedicato che si sottoscrive al topic MQTT specificamente designato per la trasmissione di tali dati. Successivamente, il nodo ripubblica le informazioni ricevute sul topic ROS \textit{/drive\_parameters}.
+
+\noindent Poiché i dati trasmessi tramite MQTT sono di tipo stringa, il veicolo dovrà elaborare queste stringhe al fine di estrarre le informazioni pertinenti e popolarne i campi di un messaggio ROS conforme al tipo di dato previsto, esattamente come descritto nella sezione 4.3.
+
+\noindent il nodo in questo caso è suddiviso in 4 classi: 
+
+\begin{itemize}
+  \item \textbf{conf\_loader}
+  \item \textbf{control\_node}: È il nodo ROS incaricato di ripubblicare sul topic giusto i dati relativi al controllo
+  \item \textbf{json\_to\_ros2\_msgs}: Per la conversione dei messaggi
+  \item \textbf{mqtt\_subscriber}: Per iscriversi al topic mqtt designato alla ricezione dei dati
+\end{itemize}
+
+\noindent In questo caso non è stato necessario l'utilizzo della classe \textbf{topic\_manager} in quanto gli unici due topic in gioco (quello ROS e quello MQTT) sono entrambe impostabili da file di configurazione yaml.
 
 \subsubsection{MQTT server node}
-È infine stato creato un unico nodo eseguito lato server, che permetta di ricevere tutti i dati inviati dal veicolo tramite MQTT e ripubblicarli sull'istanza ROS del server e al tempo stesso ricevere i messaggi di controllo, inserirli in una stringa ed inviarli tramite MQTT al veicolo.
+È stato infine implementato un nodo centrale, eseguito sul server, che funge da ponte di comunicazione tra il veicolo e l'istanza ROS del server stesso. Questo nodo è responsabile della ricezione di tutti i dati trasmessi dal veicolo tramite il protocollo MQTT e della loro successiva pubblicazione sul bus ROS. Contestualmente, il nodo si occupa di raccogliere i comandi di controllo generati all'interno dell'ambiente ROS, di incapsularli in un messaggio MQTT e di inoltrarlo al veicolo.
+
+\noindent il nodo in questo caso è suddiviso in 8 classi, alcune delle quali sono prese dai due nodi prima implementati:
+
+\begin{itemize}
+  \item \textbf{conf\_loader}
+  \item \textbf{mqtt\_publisher}
+  \item \textbf{mqtt\_subscriber}
+  \item \textbf{msgs\_cache}
+  \item \textbf{msgs\_to\_string}
+  \item \textbf{ros\_server\_node}: Implementa il client ROS che andrà poi ad iscriversi e a pubblicare sui topic necessari
+  \item \textbf{string\_to\_msgs}
+  \item \textbf{topic\_manager}
+\end{itemize}
