@@ -26,7 +26,7 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
   \item \textbf{hunter\_ros2\_node}: Come descritto prima, questo nodo oltre a fornire l'odometria del mezzo, è anche capace di ricevere i comandi da impartire al robot. Il nodo è infatti in perenne ascolto sul topic \textit{/drive\_parameters} e ad ogni messaggio non farà altro che comunicare con l'interfaccia CAN del veicolo comunicandogli la velocità e l'angolo di sterzo da impostare.
 \end{itemize}
 
-\noindent di seguito uno schema riassuntivo di tutto il meccanismo:
+\noindent di seguito uno schema riassuntivo del funzionamento della guida autonoma:
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{figures/schema_guida_autonoma.png}
@@ -47,6 +47,14 @@ La primissima domanda da porci è quale parte dello stack diventerà remoto, ad 
 \end{itemize}
 
 \noindent Tutto il resto sarà gestito da remoto. Questo ci permette di poter scegliere con più flessibilità in quale modo pilotare il rover, si potrà infatti decidere sia di eseguire l'intero stack, senza modifiche, sulla macchina in remoto e di conseguenza inviare i comandi calcolati al mezzo, sia di poter guidare il veicolo completamente in manuale da un apposito operatore e di inviare solo i comandi scelti da quest'ultimo al veicolo.
+
+\noindent di seguito uno schema riassuntivo del funzionamento della guida remota:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/schema_guida_remota.png}
+  \caption{Schema rissuntivo dello stack di guida remota}
+  \label{Schema rissuntivo dello stack di guida remota}
+\end{figure}
 
 \subsection{Nodi sviluppati}
 Oltre ai nodi che già erano compresi nello stack di guida autonoma, è stato necessario sviluppare altri nodi che permettessero lo scambio di informazioni tra il veicolo e il server. Nello specifico i 3 nodi si iscriveranno a specifici topic ROS e pubblicheranno le stesse informazioni su topic MQTT.
