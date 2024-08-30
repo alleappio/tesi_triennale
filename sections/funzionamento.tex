@@ -51,9 +51,11 @@ La primissima domanda da porci è quale parte dello stack diventerà remoto, ad 
 \subsection{Nodi sviluppati}
 Oltre ai nodi che già erano compresi nello stack di guida autonoma, è stato necessario sviluppare altri nodi che permettessero lo scambio di informazioni tra il veicolo e il server. Nello specifico i 3 nodi si iscriveranno a specifici topic ROS e pubblicheranno le stesse informazioni su topic MQTT.
 
-\noindent Ogni nodo è diviso in più classi ed un unico main file, che gestirà l'intero flusso del nodo. All'interno del progetto che contiene il nodo sono anche compresi dei file di configurazione in formato yaml, dai quali il nodo andrà a leggere informazioni necessarie per l'esecuzione del processo.
+\noindent Ogni nodo è diviso in più classi ed un unico main file, che gestirà l'intero flusso di esecuzione del nodo. All'interno del progetto che contiene il nodo sono anche compresi dei file di configurazione in formato yaml, dai quali il nodo andrà a leggere informazioni necessarie per l'esecuzione del processo. Di seguito un esempio di file di configurazione utilizzato per definire alcuni parametri relativi alla comunicazione MQTT:
 
-\noindent È inoltre utile specificare che l'intera codebase è scritta in linguaggio c++, che risulta utile qualora sia necessario avere bassi tempi di esecuzione.
+\lstinputlisting{samples/mqtt_parameters.yaml}
+
+\noindent È inoltre utile specificare che l'intera codebase è scritta in linguaggio C++, che risulta utile qualora sia necessario avere bassi tempi di esecuzione.
 
 \subsubsection{MQTT telemery node}
 La prima fase del progetto ha riguardato lo sviluppo di un componente software, ovvero un nodo ROS, in grado di interfacciarsi con i sensori del veicolo. Questo nodo, una volta configurato per sottoscriversi ai topic di interesse, è in grado di acquisire i dati provenienti dai sensori e di trasformarli in un formato adatto alla trasmissione. La scelta del formato JSON, ampiamente utilizzato per lo scambio di dati tra sistemi eterogenei, è stata dettata dalla sua leggibilità e dalla sua facilità di parsing. I dati, così formattati, vengono inviati al server MQTT.
@@ -65,9 +67,13 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
   \item \textit{/odometry}: Per la ricezione dei dati di odometria del mezzo
 \end{itemize}
 
-\noindent Una volta ricevuto il dato, questo verrà formattato in una stringa JSON contente tutti i dati del messaggio. Una volta formattata, la stringa viene inserita all'interno di una cache, questa cache verrà poi inviata al server MQTT ad intervalli temporali regolari.
+\noindent Una volta acquisito il dato grezzo, esso viene convertito in una rappresentazione strutturata e leggibile, nello specifico una stringa in formato JSON. Tale stringa, contenente l'insieme completo dei dati costituenti il messaggio, viene quindi immessa all'interno di una cache dedicata.
 
-\noindent Un thread altro non è che un'unità di esecuzione parallela all'unità principale, chiamata main thread.
+\noindent La cache funge da deposito temporaneo, accumulando le stringhe JSON generate fino al raggiungimento di una determinata soglia (o intervallo) di tempo predefinito e impostabile tramite file di configurazione. Al verificarsi di tali condizioni, il contenuto completo della cache viene trasmesso in un'unica operazione al server MQTT. Questa modalità di trasmissione, basata su un meccanismo di invio periodico, consente di ottimizzare le comunicazioni e ridurre il carico sulla rete.
+
+\noindent Per quanto concerne la gestione concorrente di queste operazioni, si introduce il concetto di thread. Un thread può essere definito come un flusso di esecuzione autonomo all'interno di un processo. In altre parole, rappresenta una singola sequenza di istruzioni che può essere eseguita in parallelo rispetto ad altre sequenze, all'interno dello stesso programma.
+
+\noindent Nel contesto descritto, è possibile impiegare un thread dedicato per gestire l'operazione di trasmissione dei dati. Tale thread opererà in modo concorrente rispetto al thread principale (main thread), consentendo di eseguire contemporaneamente altre attività e di migliorare la reattività dell'applicazione.
 
 \noindent Il nodo è suddiviso in 6 classi:
 

@@ -1,5 +1,6 @@
 \section{MQTT}
 In questa sezione si passa alla descrizione del protocollo di rete MQTT ed al perchè si è scelto di utilizzare questa tecnologia.
+
 \subsection{Descrizione}
 Il protocollo MQTT (Message Queuing Telemetry Transport) è un protocollo di rete di tipo publish-subscribe, progettato per la trasmissione di messaggi tra dispositivi in ambienti caratterizzati da connessioni di rete con larghezza di banda limitata, latenza elevata, o affidabilità intermittente.
 
@@ -29,7 +30,6 @@ I messaggi scambiati tramite protocollo MQTT non sono altro che stringhe di test
 
 \noindent Per fare un esempio di seguito si illustra come un messaggio di odometria (illustrato nella sezione precedente)si presenterà in forma di testo JSON:
 
-%\lstinputlisting[language=json]{samples/odometry.json}
 \lstinputlisting{samples/odometry.json}
 
 \noindent Come si può vedere grazie a questa struttura è possibile rappresentare fedelmente i dati riportati dal messaggio ROS.
