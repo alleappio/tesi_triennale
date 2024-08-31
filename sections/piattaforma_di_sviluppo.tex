@@ -4,6 +4,13 @@ In questa sezione si descrive come è composta e come è stata assemblata la pia
 \subsection{Rover AgileX}
 Il veicolo selezionato per lo sviluppo della presente tesi è un rover terrestre prodotto da AgileX, modello Hunter. Questo rover è dotato di un'interfaccia di controllo basata sul protocollo CAN (Controller Area Network), un protocollo seriale molto versatile sviluppato dall'azienda Bosh e molto utilizzato in ambito automotive. 
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/franco.png}
+  \caption{Rover assemblato}
+  \label{Rover assemblato}
+\end{figure}
+
 \noindent l'interfaccia CAN del rover è collegata alla porta usb del computer embedded e consente una comunicazione efficiente e affidabile con esso. Il modello Hunter è stato scelto per le sue avanzate caratteristiche tecniche e per la sua versatilità, che lo rendono particolarmente adatto alle esigenze del progetto.
 
 \noindent Oltre a fornire un'interfaccia per il controllo diretto, il veicolo è in grado di raccogliere e trasmettere una serie di dati diagnostici e operativi fondamentali per il monitoraggio e l'analisi delle sue prestazioni. Tra questi dati, un ruolo cruciale è ricoperto dall'odometria. 
@@ -22,3 +29,4 @@ Per quanto concerne il sensore, la scelta è ricaduta su un sensore Lidar (Light
 
 \subsection{Router}
 In considerazione delle elevate esigenze di comunicazione proprie di un veicolo connesso, si è optato per l'integrazione a bordo di un router di rete. Tale dispositivo ha la duplice funzione di stabilire una connessione stabile e ad alta banda passante con l'infrastruttura di rete esterna, garantendo così la trasmissione fluida dei dati, e di fungere da nodo centrale per la comunicazione interna al veicolo. In particolare, il router è preposto a interconnettere il calcolatore di bordo, deputato all'elaborazione dei dati provenienti dai vari sensori, con il sensore Lidar, il quale, mediante interfaccia Ethernet, trasmette ingenti volumi di dati destinati al calcolatore.
+
