@@ -22,8 +22,8 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
 \noindent Andiamo infine a descrivere il funzionamento della parte di controllo, questa è infatti composta da due nodi:
 
 \begin{itemize}
-  \item \textbf{purepursuit}: Si occupa di ricevere il percorso pubblicato sul topic \textit{/path} e a partire dalla posizione pubblicata dal nodo \textbf{particle\_filter} calcola i comandi da impartire al robot. I comandi vengono pubblicati sul topic\textit{/drive\_parameters} e sono di tipo \textit{Ackermann Stamped}, questo non è altro che un semplice tipo di messaggio ROS che incapsula il timestamp, un angolo di sterzo ed una velocità.
-  \item \textbf{hunter\_ros2\_node}: Come descritto prima, questo nodo oltre a fornire l'odometria del mezzo, è anche capace di ricevere i comandi da impartire al robot. Il nodo è infatti in perenne ascolto sul topic \textit{/drive\_parameters} e ad ogni messaggio non farà altro che comunicare con l'interfaccia CAN del veicolo comunicandogli la velocità e l'angolo di sterzo da impostare.
+  \item \textbf{purepursuit}: Si occupa di ricevere il percorso pubblicato sul topic \textit{/path} e a partire dalla posizione pubblicata dal nodo \textbf{particle\_filter} calcola i comandi da impartire al robot. I comandi vengono pubblicati sul topic\textit{/drive\_parameters} e sono di tipo \textit{Ackermann Stamped}, questo non è altro che un semplice tipo di messaggio ROS che incapsula il timestamp, un angolo di sterzo ed una velocità
+  \item \textbf{hunter\_ros2\_node}: Come descritto prima, questo nodo oltre a fornire l'odometria del mezzo, è anche capace di ricevere i comandi da impartire al robot. Il nodo è infatti in perenne ascolto sul topic \textit{/drive\_parameters} e ad ogni messaggio non farà altro che comunicare con l'interfaccia CAN del veicolo comunicandogli la velocità e l'angolo di sterzo da impostare
 \end{itemize}
 
 \noindent di seguito uno schema riassuntivo del funzionamento della guida autonoma:
@@ -34,9 +34,11 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
   \label{Schema rissuntivo dello stack di guida autonoma}
 \end{figure}
 
-\subsection{guida remota}
+\subsection{Guida remota}
 Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, è ora di passare alla pianificazione di quella remota.
-La primissima domanda da porci è quale parte dello stack diventerà remoto, ad esempio si potrebbe decidere di svolgere solo la parte di planning da remoto e lasciare in resto in locale, o ad esempio di portare solo la perception. Si potrebbe anche decidere di far eseguire solo specifici nodi da remoto e lasciare in resto in locale.
+
+\noindent La primissima domanda da porci è quale parte dello stack diventerà remoto, ad esempio si potrebbe decidere di svolgere solo la parte di planning da remoto e lasciare in resto in locale, o ad esempio di portare solo la perception. Si potrebbe anche decidere di far eseguire solo specifici nodi da remoto e lasciare in resto in locale.
+
 \noindent Nella presente tesi si è scelto di portare in remoto quasi tutto lo stack, lasciando in locale solo i nodi che hanno strettamente bisogno dell'interfacciamento con l'hardare.
 
 \noindent Nello specifico gli unici nodi che rimarranno in locale saranno:
@@ -48,7 +50,8 @@ La primissima domanda da porci è quale parte dello stack diventerà remoto, ad 
 
 \noindent Tutto il resto sarà gestito da remoto. Questo ci permette di poter scegliere con più flessibilità in quale modo pilotare il rover, si potrà infatti decidere sia di eseguire l'intero stack, senza modifiche, sulla macchina in remoto e di conseguenza inviare i comandi calcolati al mezzo, sia di poter guidare il veicolo completamente in manuale da un apposito operatore e di inviare solo i comandi scelti da quest'ultimo al veicolo.
 
-\noindent di seguito uno schema riassuntivo del funzionamento della guida remota:
+\noindent Di seguito uno schema riassuntivo del funzionamento della guida remota:
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{figures/schema_guida_remota.png}
@@ -86,9 +89,9 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
 \noindent Il nodo è suddiviso in 6 classi:
 
 \begin{itemize}
-  \item \textbf{conf\_loader}: Si occupa di caricare i dati dai file di configurazione prima citati, nello specifico questa classe è stata implementata per rendere il main thread e il resto del processo indipendente dal formato dei file di configurazione.
-  \item \textbf{mqtt\_publisher}: È una classe che contiene metodi utili all'invio di stringhe tramite protocollo MQTT e che si avvale della libreria paho.mqtt.cpp fornita dalla eclipse foundation. 
-  \item \textbf{mqtt\_telemetry\_node}: Questa classe è quella che implementa il nodo ROS che si incaricherà di ricevere i dati utili alla telemetria.
+  \item \textbf{conf\_loader}: Si occupa di caricare i dati dai file di configurazione prima citati, nello specifico questa classe è stata implementata per rendere il main thread e il resto del processo indipendente dal formato dei file di configurazione
+  \item \textbf{mqtt\_publisher}: È una classe che contiene metodi utili all'invio di stringhe tramite protocollo MQTT e che si avvale della libreria paho.mqtt.cpp fornita dalla eclipse foundation 
+  \item \textbf{mqtt\_telemetry\_node}: Questa classe è quella che implementa il nodo ROS che si incaricherà di ricevere i dati utili alla telemetria
   \item \textbf{msgs\_cache}: Questa classe implementa una semplice struttura dati che accoppia ad ogni topic ROS (rappresentata come stringa), una stringa JSON contente i dati di telemetria da inviare
   \item \textbf{msgs\_to\_string}: È un insieme di funzioni statiche che permette la traduzione da messaggi ROS a stringhe JSON
   \item \textbf{topic\_manager}: È la classe designata ad accoppiare i topic ROS con i rispettivi topic MQTT, il codice è incluso nella sezione 4.4 
@@ -113,7 +116,7 @@ In secondo luogo, è fondamentale predisporre un meccanismo che consenta al veic
 \subsubsection{MQTT server node}
 È stato infine implementato un nodo centrale, eseguito sul server, che funge da ponte di comunicazione tra il veicolo e l'istanza ROS del server stesso. Questo nodo è responsabile della ricezione di tutti i dati trasmessi dal veicolo tramite il protocollo MQTT e della loro successiva pubblicazione sul bus ROS. Contestualmente, il nodo si occupa di raccogliere i comandi di controllo generati all'interno dell'ambiente ROS, di incapsularli in un messaggio MQTT e di inoltrarlo al veicolo.
 
-\noindent il nodo in questo caso è suddiviso in 8 classi, alcune delle quali sono prese dai due nodi prima implementati:
+\noindent Il nodo in questo caso è suddiviso in 8 classi, alcune delle quali sono prese dai due nodi prima implementati:
 
 \begin{itemize}
   \item \textbf{conf\_loader}

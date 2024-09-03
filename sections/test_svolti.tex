@@ -7,8 +7,8 @@ La prima fase sperimentale è stata dedicata alla verifica funzionale dei driver
 \noindent Per condurre questa valutazione, è stato sviluppato un nodo ROS dedicato alla ricezione dei dati da un joystick. Questi dati, dopo un'elaborazione preliminare, venivano convertiti in un angolo di sterzo e una velocità, e successivamente pubblicati sul topic ROS \textit{/drive\_parameters} sotto forma di messaggi di tipo Ackermann. Tale configurazione consentiva di verificare direttamente:
 
 \begin{itemize}
-  \item Compatibilità del nodo ROS AgileX: Se il nodo ROS fornito dal produttore supportasse il formato dei messaggi Ackermann, comunemente utilizzato per il controllo di veicoli mobili.
-  \item Efficacia del driver: Se il driver fosse in grado di tradurre correttamente i messaggi ROS in messaggi CAN, permettendo così al rover di eseguire i comandi impartiti.
+  \item Compatibilità del nodo ROS AgileX: Se il nodo ROS fornito dal produttore supportasse il formato dei messaggi Ackermann, comunemente utilizzato per il controllo di veicoli mobili
+  \item Efficacia del driver: Se il driver fosse in grado di tradurre correttamente i messaggi ROS in messaggi CAN, permettendo così al rover di eseguire i comandi impartiti
 \end{itemize}
 
 \noindent I primi test non sono andati a buon fine, in quanto dopo un accurata analisi si è riscontrato che il nodo ROS di casa AgileX utilizza un diverso formato di messaggi per il controllo del mezzo, interrompendo così lo stack.
