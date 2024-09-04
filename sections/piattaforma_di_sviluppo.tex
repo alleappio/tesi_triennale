@@ -27,21 +27,24 @@ Un elemento cruciale per la realizzazione di questa tesi è stato l'identificazi
 
 \noindent La scelta è dunque ricaduta su una scheda di casa Nvidia, nello specifico sul modello AGX Jetson Xavier, ovvero una GPGPU (General Purpose Graphic Processing Unit). Questa scelta è motivata dall'elevata capacità di elaborazione parallela che solo una GPGPU può fornire, questa capacità risulta particolarmente vantaggiosa per l'esecuzione di complessi algoritmi di percezione e pianificazione, oltre che di controllo, da svolgere in tempo reale. La GPGPU selezionata opera con il sistema operativo Ubuntu 20.04 Focal Fossa, noto per la sua stabilità e ampia compatibilità con l'hardware scelto.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/xavier.jpg}
+  \caption{Nvidia AGX Jetson Xavier}
+  \label{Nvidia AGX Jetson Xavier}
+\end{figure}
+
 \subsection{Lidar}
-Per quanto concerne il sensore, la scelta è ricaduta su un sensore Lidar (Light Detection and Ranging) a 2 dimensioni. Questo dispositivo sfrutta la tecnologia laser per determinare la distanza di vari punti nell'ambiente circostante, calcolando il tempo di ritorno dei raggi laser emessi. Il Lidar fornisce una mappa dettagliata della topografia dell'ambiente, consentendo al sistema di percezione di creare rappresentazioni, tridimensionali o bidimensionali a seconda della tipologia, accurate e fondamentali per il riconoscimento degli ostacoli, la navigazione, la pianificazione del percorso del veicolo e la mappatura dell'ambiente circostante. La combinazione di una GPGPU performante e un sensore Lidar avanzato rappresenta una solida base tecnologica per lo sviluppo di un sistema di guida autonoma e remota altamente efficiente.
+Per quanto concerne il sensore, la scelta è ricaduta su un sensore Lidar (Light Detection and Ranging) a 2 dimensioni di marca Hokuio. Questo dispositivo sfrutta la tecnologia laser per determinare la distanza di vari punti nell'ambiente circostante, calcolando il tempo di ritorno dei raggi laser emessi. Il Lidar fornisce una mappa dettagliata della topografia dell'ambiente, consentendo al sistema di percezione di creare rappresentazioni, tridimensionali o bidimensionali a seconda della tipologia, accurate e fondamentali per il riconoscimento degli ostacoli, la navigazione, la pianificazione del percorso del veicolo e la mappatura dell'ambiente circostante. La combinazione di una GPGPU performante e un sensore Lidar avanzato rappresenta una solida base tecnologica per lo sviluppo di un sistema di guida autonoma e remota altamente efficiente.
 
 \noindent Il sensore Lidar genera una nuvola di punti dell'ambiente circostante attraverso l'emissione di impulsi laser in un cono di 270 gradi. Ciascun punto della nuvola corrisponde alla distanza misurata tra il sensore e un elemento dell'ambiente. La distanza è determinata con accuratezza cronometrando il tempo impiegato dall'impulso laser a percorrere il tragitto andata e ritorno.
 
-\noindent Di seguito un'immagine che dimostra intuitavemente il funzionamento del sensore Lidar.
-
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=1\textwidth]{figures/lidar_map.png}
-  \caption{Dimostrazione funzionamento del sensore Lidar}
-  \label{Dimostrazione funzionamento del sensore Lidar}
+  \includegraphics[width=0.8\textwidth]{figures/sensore_hokuio.jpg}
+  \caption{Sensore Lidar}
+  \label{Sensore Lidar}
 \end{figure}
-
-\noindent In questa immagine abbiamo una porzione di una mappa(lo sfondo nero e grigio) e la pointcloud generata dal sensore Lidar (i punti colorati). Il colore dei punti non è casuale, bensì il colore è un metodo intuitivo per stimare la distanza di quel particolare punto dal robot (la freccia rossa).
 
 \subsection{Router}
 In considerazione delle elevate esigenze di comunicazione proprie di un veicolo connesso, si è optato per l'integrazione a bordo di un router di rete. Tale dispositivo ha la duplice funzione di stabilire una connessione stabile e ad alta banda passante con l'infrastruttura di rete esterna, garantendo così la trasmissione fluida dei dati, e di fungere da nodo centrale per la comunicazione interna al veicolo. In particolare, il router è preposto a interconnettere il calcolatore di bordo, deputato all'elaborazione dei dati provenienti dai vari sensori, con il sensore Lidar, il quale, mediante interfaccia Ethernet, trasmette ingenti volumi di dati destinati al calcolatore.

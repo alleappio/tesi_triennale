@@ -12,6 +12,17 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
   \item \textbf{particle\_filter}: Implementa l'algoritmo di localizzazione chiamato particle filter, questo algoritmo sfrutta per il suo funzionamento la mappa dell'ambiente in cui il robot si sta muovendo, l'odometria del veicolo e la pointcloud del sensore Lidar. Questo nodo pubblica la posizione calcolata sul topic ROS \textit{/pf/position} sottoforma di dato \textit{Odometry}.
 \end{itemize}
 
+\noindent Di seguito un'immagine che dimostra intuitavemente il funzionamento del sensore Lidar durante la fase di localizzazione.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/lidar_map.png}
+  \caption{Dimostrazione funzionamento del sensore Lidar}
+  \label{Dimostrazione funzionamento del sensore Lidar}
+\end{figure}
+
+\noindent In questa immagine abbiamo una porzione di una mappa(lo sfondo nero e grigio) e la pointcloud generata dal sensore Lidar (i punti colorati). Il colore dei punti non è casuale, ma è bensì un metodo intuitivo per stimare la distanza di quel particolare punto dalla posizione calcolata del robot (la freccia rossa).
+
 \noindent Passando invece al momento del planning ci si avvale di due nodi:
 
 \begin{itemize}
