@@ -4,6 +4,7 @@
 \usepackage{xcolor}
 \usepackage{forest} %p Per disegnare grafi
 \usepackage{float}
+\usepackage{natbib}
 
 \definecolor{pc_background}{rgb}{0.96, 0.96, 0.96} % Background light grey
 \definecolor{pc_text}{rgb}{0.15, 0.15, 0.15}       % Dark text
@@ -53,5 +54,11 @@
 \input{sections/test_svolti.tex}
 \newpage
 \input{sections/sviluppi_e_conclusione.tex}
+
+\newpage
+
+\nocite{*}
+\bibliography{bibliography/bibl}{}
+\bibliographystyle{plain}
 
 \end{document}
