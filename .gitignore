@@ -3,5 +3,6 @@
 *.toc
 *.bbl
 *.blg
+*.out
 appunti.txt
 Session.vim

@@ -14,7 +14,14 @@ Come descritto nella prefazione il framework ROS prevede l'esclusivo utilizzo de
 
 \noindent Al contrario il protocollo MQTT si avvale del protocollo \textbf{TCP} a livello di trasporto. Questa scelta progettuale offre una serie di vantaggi che lo rendono particolarmente adatto per applicazioni IoT e di messaggistica in generale.
 
-\noindent TCP garantisce la consegna ordinata e affidabile dei messaggi, riducendo al minimo il rischio di perdite di dati. Questa caratteristica è fondamentale in scenari come quello studiato, dove l'integrità dei dati è cruciale. Questa garanzia ci viene fornita da diverse tecniche che \textbf{TCP} implementa. 
+\noindent TCP garantisce la consegna ordinata e affidabile dei messaggi, riducendo al minimo il rischio di perdite di dati. Questa caratteristica è fondamentale in scenari come quello studiato, dove l'integrità dei dati è cruciale. Questa garanzia ci viene fornita da diverse tecniche che \textbf{TCP} implementa con meccanismi di acknowledge e timeout dei pacchetti. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/tcp_vs_udp_geeksforgeeks.png}
+  \caption{Comparazione graficata tra i 2 protocolli. Immagine tratta da \cite{TCPvsUDP_geeksforgeeks}}
+  \label{Comparazione graficata tra i 2 protocolli}
+\end{figure}
 
 \noindent Oltre a ciò TCP implementa meccanismi di controllo del flusso che evitano la congestione della rete, garantendo una comunicazione efficiente anche in condizioni di carico elevato.
 
