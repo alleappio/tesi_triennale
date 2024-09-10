@@ -42,6 +42,15 @@ Il terzo test è stato uno dei più importanti, questo riguarda la localizzazion
 \noindent Una soluzione a questo problema può essere sicuramente quella di utilizzare un Lidar più avanzato a tre dimensioni, in modo da apprezzare feature dell'ambiente che non sarebbero altrimenti rilevabili in due dimensioni, soluzione che sta venendo sperimentata al momento della stesura della presente tesi.
 
 \subsection{Guida autonoma}
-La sperimentazione conclusiva ha avuto come obiettivo la verifica delle prestazioni complessive del sistema di navigazione autonoma. A partire dalla mappa dell'ambiente generata precedentemente e dai parametri di controllo ottimizzati, è stato pianificato un percorso di riferimento. Successivamente, il robot è stato incaricato di seguire il percorso predefinito, utilizzando l'algoritmo di localizzazione per stimare la propria posizione in tempo reale e adattare la traiettoria in base alle informazioni sensoriali acquisite.
+La penultima sperimentazione ha avuto come obiettivo la verifica delle prestazioni complessive del sistema di navigazione autonoma. A partire dalla mappa dell'ambiente generata precedentemente e dai parametri di controllo ottimizzati, è stato pianificato un percorso di riferimento. Successivamente, il robot è stato incaricato di seguire il percorso predefinito, utilizzando l'algoritmo di localizzazione per stimare la propria posizione in tempo reale e adattare la traiettoria in base alle informazioni sensoriali acquisite.
 
 \noindent Sebbene i risultati ottenuti siano stati generalmente positivi, si sono manifestati alcuni problemi di deviazione dalla traiettoria pianificata, attribuibili alle incertezze nella stima di posizione, particolarmente evidenti nelle aree dell'ambiente prive di elementi distintivi.
+
+\subsection{Guida remota}
+In conclusione sono stati svolti test per quanto concerne la guida remota. Nello specifico si è utilizzato un gamepad connesso ad un computer portatile che andasse a comunicare con il nodo ROS \textit{mqtt\_server\_node} per l'impartizione e per l'invio dei comandi tramite rete, allo stesso tempo sul veicolo venivano eseguiti i nodi \textbf{mqtt\_control\_node} per la ricezione dei comandi e \textbf{hunter\_ros2\_node} per inviare i comandi all'interfaccia CAN del mezzo.
+
+\noindent Per la comunicazione MQTT è stato utilizzato un broker hostato su rete pubblica con cui sia il veicolo che il portatile (che nell'esperimento rappresentava il server) andavano a comunicare. 
+
+\noindent Le verifiche effettuate hanno confermato il corretto funzionamento degli applicativi, sebbene abbiano messo in luce alcune inefficienze. Tra queste, la latenza nella comunicazione tra veicolo e stazione di controllo è risultata particolarmente critica. Il tempo di risposta, misurato tra l'invio di un comando dal gamepad e la corrispondente azione del veicolo, ha mostrato valori elevati, fino a un secondo o due, rendendo l'applicazione non idonea a scenari che richiedono tempi di reazione rapidi, come la guida remota.
+
+\noindent Gli stessi tempi di latenza di questo test sono stati anche riscontrati nelle prove che riguardavano la telemetria, vvero l'invio di dati da parte del mezzo che riguardano i sensori a bordo al server.
