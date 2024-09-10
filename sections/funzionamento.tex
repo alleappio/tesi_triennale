@@ -95,7 +95,11 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
 
 \noindent Per quanto concerne la gestione concorrente di queste operazioni, si introduce il concetto di thread. Un thread può essere definito come un flusso di esecuzione autonomo all'interno di un processo. In altre parole, rappresenta una singola sequenza di istruzioni che può essere eseguita in parallelo rispetto ad altre sequenze, all'interno dello stesso programma.
 
-\noindent Nel contesto descritto, è possibile impiegare un thread dedicato per gestire l'operazione di trasmissione dei dati. Tale thread opererà in modo concorrente rispetto al thread principale (main thread), consentendo di eseguire contemporaneamente altre attività e di migliorare la reattività dell'applicazione.
+\noindent Nel contesto descritto, è possibile impiegare un thread dedicato per gestire l'operazione di trasmissione dei dati. Tale thread opererà in modo concorrente rispetto al thread principale (main thread), consentendo di eseguire contemporaneamente altre attività e di migliorare la reattività dell'applicazione. Per permettere ciò è però necessario gestire la cache in modo che i 2 thread che ne fanno utilizzo non vadano in conflitto per accedere alla risorsa, in quanto se ciò non fosse gestito si andrebbe ad incappare in alcuni problemi, come ad esempio la lettura di un dato incorretto da parte del thread di invio dei messaggi o una scrittura parziale da parte del main thread.
+
+\noindent Per la gestione di ciò si è dunque deciso di utilizzare una struttura chiamata mutex, che permette ad un thread di bloccare una risorsa per utilizzarla ed ad un altro di aspettare che la risorsa si liberi per poterla utilizzare. Di seguito l'implementazione della classe \textbf{msgs\_cache}:
+
+\lstinputlisting{samples/msgs_cache.cpp}
 
 \noindent Il nodo è suddiviso in 6 classi:
 
