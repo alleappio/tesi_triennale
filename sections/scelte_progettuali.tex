@@ -40,3 +40,27 @@ Nell'ambito della guida remota, la resilienza del sistema è un fattore critico.
 \noindent MQTT è progettato per operare in ambienti distribuiti, con molti dispositivi connessi a un broker centrale. Questa architettura rende il sistema più resistente a guasti locali, poiché la perdita di un singolo dispositivo o di una connessione non compromette necessariamente l'intero sistema.
 
 \noindent Al contrario ROS spesso si basa su un unico organo, chiamato \textit{ROS Master} che coordina tutte le comunicazioni. La perdita o l'irraggiungibilità di questo organo può causare il blocco dell'intero sistema.
+
+\subsection{Controllo del QOS}
+Un'ulteriore punto da considerare è quella della gestione della \textbf{QOS} (Quality Of Service). Il concetto di \textbf{QOS}indica il livello di garanzia che una rete offre per quanto riguarda la consegna dei dati. Una bassa Quality Of Service indica che i pacchetti non vengono consegnati correttamente o che addirittura non è certa la ricezione di questi messaggi.  
+
+\noindent Entrambi i protocolli offrono meccanismi di gestione della \textbf{QOS}, nello specifico.
+
+\noindent \textbf{MQTT} offre tre livelli di gestione (0, 1, 2) che consentono di adattare il livello di affidabilità della rete, tutti e tre i livelli si basano sul come e quante volte il messaggio deve essere riinviato perchè questo possa essere considerato ricevuto. 
+
+\begin{itemize}
+  \item \textit{QoS 0} (At most once): Il messaggio viene consegnato al massimo una volta. Non c'è alcuna garanzia di consegna, e il messaggio potrebbe perdersi. È il livello più veloce ma meno affidabile
+  \item \textit{QoS 1} (At least once): Il messaggio viene consegnato almeno una volta. Il broker invia un messaggio di conferma al publisher, e se non riceve conferma, reinvia il messaggio. Questo livello garantisce che il messaggio arrivi, ma potrebbe arrivare più di una volta
+  \item \textit{QoS 2} (Exactly once): Il messaggio viene consegnato esattamente una volta. Il broker invia un messaggio di conferma al publisher, e solo dopo aver ricevuto questa conferma, considera il messaggio consegnato. Questo è il livello più affidabile ma anche il più lento
+\end{itemize}
+
+\noindent \textbf{ROS} invece, non offre un meccanismo di QoS così definito e flessibile come MQTT. La gestione della qualità del servizio in ROS è più legata alla configurazione dei nodi e dei topic, e spesso richiede una implementazione personalizzata per garantire un livello di affidabilità specifico. 
+
+Le possibili configurazioni che è possibile fare sui nodi ROS sono:
+\begin{itemize}
+  \item \textit{History}: Definisce la quantità di dati che possono essere memorizzati in un buffer prima che vengano scartati.
+  \item \textit{Depth}: Indica la dimensione massima del buffer.
+  \item \textit{Reliability}: Determina il livello di affidabilità della comunicazione (best-effort, reliable, etc.).
+  \item \textit{Durability}: Specifica se i dati devono essere persistenti anche se i nodi non sono connessi.
+  \item \textit{Liveliness}: Definisce come spesso un nodo deve dimostrare di essere attivo.
+\end{itemize}
