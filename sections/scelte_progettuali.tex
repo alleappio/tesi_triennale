@@ -41,6 +41,13 @@ Nell'ambito della guida remota, la resilienza del sistema è un fattore critico.
 
 \noindent Al contrario ROS spesso si basa su un unico organo, chiamato \textit{ROS Master} che coordina tutte le comunicazioni. La perdita o l'irraggiungibilità di questo organo può causare il blocco dell'intero sistema.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/ros_master.png}
+  \caption{Struttura del sistema ROS}
+  \label{struttura_ros}
+\end{figure}
+
 \subsection{Controllo del QOS}
 Un'ulteriore punto da considerare è quella della gestione della \textbf{QOS} (Quality Of Service). Il concetto di \textbf{QOS}indica il livello di garanzia che una rete offre per quanto riguarda la consegna dei dati. Una bassa Quality Of Service indica che i pacchetti non vengono consegnati correttamente o che addirittura non è certa la ricezione di questi messaggi.  
 
