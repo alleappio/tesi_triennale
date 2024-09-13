@@ -48,47 +48,50 @@ Una comunicazione ROS è formata da 3 elementi:
 \begin{itemize}
   \item Topic: Il protocollo utilizzato da ROS è di tipo publish/subscribe, ciò vuol dire che durante l'esecuzione dei nodi si vanno a creare dei topic, ovvero stringhe che utilizzano come separatore il carattere '/' e che ci permettono di suddividere tutti i diversi dati da inviare. Un esempio sono le scan lidar che vengono pubblicate sul topic "/scan". Ogni nodo può decidere se fare la subscribe a quel nodo (ovvero ricevere tutti i dati inviati attraverso esso), fare delle publish (ovvero pubblicare dati su di esso) o se semplicemente ignorarlo
   \item Message type: Una volta scelto un topic però si dovrà anche decidere quali informazioni saranno ammesse su questo, ROS fornisce diversi tipi di dato pubblicabile su un singolo topic. Un esempio è il tipo di dato utilizzato dal particle filter e dall'odometria del mezzo, ovvero "Odometry messages", che descrivono la posizione e il movimento (o meglio l'odometria) di un oggetto nello spazio. Il messaggio specifico per l'odometria fornito da ROS è strutturanto nel seguente modo:
-
-    \begin{forest}
-      %for tree={grow'=90, circle, draw, l sep=5pt}
-      for tree={draw}
-      [Odometry
-        [Header
-          [timestamp]
-        ]
-        [Pose\_with\_covariance
-          [Pose
-            [Position
-              [x]
-              [y]
-              [z]
-            ]
-            [Orientation
-              [x]
-              [y]
-              [z]
-              [w]
-            ]
+    \begin{figure}
+      \centering
+      \begin{forest}
+        %for tree={grow'=90, circle, draw, l sep=5pt}
+        for tree={draw}
+        [Odometry
+          [Header
+            [timestamp]
           ]
-          [Covariance]
-        ]
-        [twist\_with\_covariance
-          [Twist
-            [Linear\_velocity
-              [x]
-              [y]
-              [z]
+          [Pose\_with\_covariance
+            [Pose
+              [Position
+                [x]
+                [y]
+                [z]
+              ]
+              [Orientation
+                [x]
+                [y]
+                [z]
+                [w]
+              ]
             ]
-            [Angular\_velocity
-              [x]
-              [y]
-              [z]
-            ]
+            [Covariance]
           ]
-          [Covariance]
+          [twist\_with\_covariance
+            [Twist
+              [Linear\_velocity
+                [x]
+                [y]
+                [z]
+              ]
+              [Angular\_velocity
+                [x]
+                [y]
+                [z]
+              ]
+            ]
+            [Covariance]
+          ]
         ]
-      ]
-    \end{forest}
+      \end{forest}
+      \caption{Struttura del messaggio ROS "Odometry"}
+    \end{figure}
 
   \noindent In questo particolare messaggio come si può notare sono contenuti: la posa, ovvero la posizione e l'orientamento del veicolo rispetto al punto di partenza, ed il Twist ovvero la velocità lineare e quella angolare dell'oggetto al momento della misura.
   \noindent Esistono molti tipi di dato forniti da ROS alcuni altri esempi sono l'ackermann message: che fornisce come dati principali una velocità ed un angolo di sterzo e viene utilizzato per comunicare al robot il movimento da compiere. Tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS 
