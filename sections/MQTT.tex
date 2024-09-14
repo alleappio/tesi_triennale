@@ -11,7 +11,7 @@ Il protocollo MQTT (Message Queuing Telemetry Transport) è un protocollo di ret
     
   \item \textbf{Affidabilità e livelli di qualità del servizio (QoS)}: MQTT offre tre livelli di QoS, che consentono di bilanciare la necessità di affidabilità con le risorse disponibili. I livelli QoS vanno da "almeno una volta" a "esattamente una volta", garantendo diversi gradi di consegna del messaggio in base ai requisiti dell'applicazione.
     
-  \item \textbf{Supporto}: per la persistenza delle sessioni: I client MQTT possono disconnettersi e riconnettersi senza perdere i messaggi inviati durante la disconnessione, grazie alla capacità del broker di mantenere lo stato delle sessioni e gestire i messaggi pendenti.
+  \item \textbf{Supporto per la persistenza delle sessioni}: I client MQTT possono disconnettersi e riconnettersi senza perdere i messaggi inviati durante la disconnessione, grazie alla capacità del broker di mantenere lo stato delle sessioni e gestire i messaggi pendenti.
 
   \item \textbf{Sicurezza}: MQTT può essere configurato per utilizzare connessioni cifrate (SSL/TLS) e supporta l'autenticazione tramite username e password, garantendo la protezione dei dati scambiati e l'accesso controllato alle risorse.
 
@@ -23,7 +23,7 @@ Il protocollo MQTT (Message Queuing Telemetry Transport) è un protocollo di ret
 \noindent All'interno del progetto per implementare lo stack MQTT si è avvalsi della libreria paho.mqtt.cpp\cite{paho_cpp}, una libreria open source fornita dalla eclipse foundation.
 
 \subsection{Infrastruttura}
-\noindent MQTT opera secondo un'architettura client-server, dove i client (dispositivi o applicazioni) si connettono a un server (broker) centrale che gestisce la distribuzione dei messaggi. I client che desiderano inviare dati pubblicano messaggi su specifici argomenti (topics), mentre i client interessati a ricevere quei dati si iscrivono (subscribe) agli stessi argomenti. Il broker, che agisce come intermediario, si occupa di ricevere i messaggi pubblicati e di inoltrarli a tutti i client iscritti agli argomenti corrispondenti.
+\noindent Il protocollo MQTT opera secondo un'architettura client-server, dove i client (dispositivi o applicazioni) si connettono a un server (broker) centrale che gestisce la distribuzione dei messaggi. I client che desiderano inviare dati pubblicano messaggi su specifici argomenti (topics), mentre i client interessati a ricevere quei dati si iscrivono (subscribe) agli stessi argomenti. Il broker, che agisce come intermediario, si occupa di ricevere i messaggi pubblicati e di inoltrarli a tutti i client iscritti agli argomenti corrispondenti.
 
 \noindent Nonostante questa numeclatura però, nel corso della presente tesi ci si riferirà al broker come "broker", mentre con il termine server ci si riferirà al calcolatore incaricato di ricevere i dati dal mezzo e a cui inviare i risultati (ovvero i messaggi di controllo).
 
@@ -43,7 +43,7 @@ In MQTT, come in ROS, per dividere le varie tipologie di messaggi inoltrati si u
 
 \lstinputlisting{samples/topic_manager.cpp}
 
-\noindent È inoltre utile rendere nota la diversa struttura delle due tipologie di topic. Infatti se per i topic ROS è utile utilizzare solo pochi identificatori, alle volte di una sola parola (eg. \textit{/drive\_parameters}, \textit{/scan}, \textit{/odometry}) dato che tutto il traffico ROS è presente solo all'interno del computer di bordo, per i topic MQTT è invece necessario utilizzare topic più lunghi, comprendenti diversi campi.
+\noindent È inoltre utile rendere nota la diversa struttura delle due tipologie di topic. Infatti, se per i topic ROS è utile utilizzare solo pochi identificatori, alle volte di una sola parola (eg. \textit{/drive\_parameters}, \textit{/scan}, \textit{/odometry}) dato che tutto il traffico ROS è presente solo all'interno del computer di bordo, per i topic MQTT è invece necessario utilizzare topic più lunghi, comprendenti diversi campi.
 
 \noindent Per fare un esempio si può illustrare il topic utilizzato nell'odometria
 

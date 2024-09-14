@@ -3,7 +3,7 @@ Nella seguente sezione si descrive il funzionamento del veicolo, degli algoritmi
 
 \subsection{Stack di guida autonoma}
 La prima cosa da analizzare è il funzionamento dello stack di guida autonoma.
-Lo stack funziona grazie a diversi processi, divisi (come descritto nell'introduzione) in perception, planning e control, di seguito una breve censita dei nodi ROS che permettono tale funzionamento:
+Questo stack funziona grazie a diversi processi, divisi (come descritto nell'introduzione) in perception, planning e control, di seguito una breve censita dei nodi ROS che permettono tale funzionamento:
 Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'algoritmo di localizzazione:
 
 \begin{itemize}
@@ -26,7 +26,7 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
 \noindent Passando invece al momento del planning ci si avvale di due nodi:
 
 \begin{itemize}
-  \item \textbf{path\_logger}: Permette la registrazione di un percorso quando il veicolo viene guidato manualmentequesto percorso viene poi salvato in un file apposito.
+  \item \textbf{path\_logger}: Permette la registrazione di un percorso quando il veicolo viene guidato manualmente. Il percorso registrato viene poi salvato in un file apposito.
   \item \textbf{path\_logger}: Questo nodo si occupa di pubblicare un percorso preregistrato o precalcolato da seguire, il dato è pubblicato sul topic \textit{/path}.  
 \end{itemize}
 
@@ -37,7 +37,7 @@ Per quanto riguarda la parte di perception, vediamo due aspetti, i sensori e l'a
   \item \textbf{hunter\_ros2\_node}: Come descritto prima, questo nodo oltre a fornire l'odometria del mezzo, è anche capace di ricevere i comandi da impartire al robot. Il nodo è infatti in perenne ascolto sul topic \textit{/drive\_parameters} e ad ogni messaggio non farà altro che comunicare con l'interfaccia CAN del veicolo comunicandogli la velocità e l'angolo di sterzo da impostare
 \end{itemize}
 
-\noindent di seguito uno schema riassuntivo del funzionamento della guida autonoma:
+\noindent Di seguito uno schema riassuntivo del funzionamento della guida autonoma:
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{figures/schema_guida_autonoma.png}
@@ -50,7 +50,7 @@ Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, 
 
 \noindent La primissima domanda da porci è quale parte dello stack diventerà remoto, ad esempio si potrebbe decidere di svolgere solo la parte di planning da remoto e lasciare in resto in locale, o ad esempio di portare solo la perception. Si potrebbe anche decidere di far eseguire solo specifici nodi da remoto e lasciare in resto in locale.
 
-\noindent Nella presente tesi si è scelto di portare in remoto quasi tutto lo stack, lasciando in locale solo i nodi che hanno strettamente bisogno dell'interfacciamento con l'hardare.
+\noindent Nella presente tesi si è scelto di portare in remoto quasi tutto lo stack, lasciando in locale solo i nodi che hanno strettamente bisogno dell'interfacciamento con l'hardware.
 
 \noindent Nello specifico gli unici nodi che rimarranno in locale saranno:
 
@@ -59,7 +59,7 @@ Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, 
   \item \textbf{hunter\_ros2\_node}: Necessario per ricavare l'odometria del mezzo e per inviare i comandi all'interfaccia CAN
 \end{itemize}
 
-\noindent Tutto il resto sarà gestito da remoto. Questo ci permette di poter scegliere con più flessibilità in quale modo pilotare il rover, si potrà infatti decidere sia di eseguire l'intero stack, senza modifiche, sulla macchina in remoto e di conseguenza inviare i comandi calcolati al mezzo, sia di poter guidare il veicolo completamente in manuale da un apposito operatore e di inviare solo i comandi scelti da quest'ultimo al veicolo.
+\noindent Tutto il resto sarà gestito da remoto. Questo ci permette di poter scegliere con più flessibilità in quale modo pilotare il rover. Si potrà infatti decidere sia di eseguire l'intero stack, senza modifiche, sulla macchina in remoto e di conseguenza inviare i comandi calcolati al mezzo, sia di poter guidare il veicolo completamente in manuale da un apposito operatore e di inviare solo i comandi scelti da quest'ultimo al veicolo.
 
 \noindent Di seguito uno schema riassuntivo del funzionamento della guida remota:
 
