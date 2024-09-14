@@ -25,6 +25,13 @@ Il protocollo MQTT (Message Queuing Telemetry Transport) è un protocollo di ret
 \subsection{Infrastruttura}
 \noindent Il protocollo MQTT opera secondo un'architettura client-server, dove i client (dispositivi o applicazioni) si connettono a un server (broker) centrale che gestisce la distribuzione dei messaggi. I client che desiderano inviare dati pubblicano messaggi su specifici argomenti (topics), mentre i client interessati a ricevere quei dati si iscrivono (subscribe) agli stessi argomenti. Il broker, che agisce come intermediario, si occupa di ricevere i messaggi pubblicati e di inoltrarli a tutti i client iscritti agli argomenti corrispondenti.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/mqtt_structure.png}
+  \caption{Struttura generica di un sistema di omunicazione basato su MQTT}
+  \label{mqtt_structure}
+\end{figure}
+
 \noindent Nonostante questa numeclatura però, nel corso della presente tesi ci si riferirà al broker come "broker", mentre con il termine server ci si riferirà al calcolatore incaricato di ricevere i dati dal mezzo e a cui inviare i risultati (ovvero i messaggi di controllo).
 
 \subsection{Formattazione messaggi}
