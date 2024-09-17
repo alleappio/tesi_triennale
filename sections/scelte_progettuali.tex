@@ -6,7 +6,7 @@ Una delle peculiarità di ROS è che non limita la comunicazione tra i nodi al s
 \noindent Vengono di seguito riportate le motivazioni per cui non viene sfruttata la capacità di ROS di pubblicare pacchetti in rete nel progetto, andando invece a preferire un protocollo IOT come MQTT.
 
 \subsection{Affidabilità}
-Come descritto nella prefazione il framework ROS prevede l'esclusivo utilizzo del protocollo \textbf{UDP} per quanto concerne l'invio di messaggi in rete. Il protocollo UDP, un protocollo a livello trasporto molto veloce e versatile, soprattutto utilizzato in applicazioni che preferiscono minimizzare l'overhead e la latenza. Tuttavia, questa scelta comporta alcuni compromessi. 
+Come descritto nella prefazione il framework ROS prevede l'esclusivo utilizzo del protocollo \textbf{UDP} per quanto concerne l'invio di messaggi in rete. Il protocollo \textbf{UDP}, un protocollo a livello trasporto molto veloce e versatile, soprattutto utilizzato in applicazioni che preferiscono minimizzare l'overhead e la latenza. Tuttavia, questa scelta comporta alcuni compromessi. 
 
 \noindent Essendo un protocollo connectionless, \textbf{UDP} non garantisce la consegna dei pacchetti, né il loro ordine di arrivo. Inoltre, non fornisce meccanismi di controllo dell'errore, come la ritrasmissione automatica dei pacchetti persi. Di conseguenza, in ambienti con elevata interferenza o congestione di rete, si possono verificare perdite di dati e una degradazione della qualità del servizio.
 
@@ -14,7 +14,7 @@ Come descritto nella prefazione il framework ROS prevede l'esclusivo utilizzo de
 
 \noindent Al contrario il protocollo MQTT si avvale del protocollo \textbf{TCP} a livello di trasporto. Questa scelta progettuale offre una serie di vantaggi che lo rendono particolarmente adatto per applicazioni IoT e di messaggistica in generale.
 
-\noindent TCP garantisce la consegna ordinata e affidabile dei messaggi, riducendo al minimo il rischio di perdite di dati. Questa caratteristica è fondamentale in scenari come quello studiato, dove l'integrità dei dati è cruciale. Questa garanzia ci viene fornita da diverse tecniche che \textbf{TCP} implementa con meccanismi di acknowledge e timeout dei pacchetti. 
+\noindent \textbf{TCP} garantisce la consegna ordinata e affidabile dei messaggi, riducendo al minimo il rischio di perdite di dati. Questa caratteristica è fondamentale in scenari come quello studiato, dove l'integrità dei dati è cruciale. Questa garanzia ci viene fornita da diverse tecniche che \textbf{TCP} implementa con meccanismi di acknowledge e timeout dei pacchetti. 
 
 \begin{figure}[H]
   \centering
@@ -23,9 +23,9 @@ Come descritto nella prefazione il framework ROS prevede l'esclusivo utilizzo de
   \label{Comparazione graficata tra i 2 protocolli}
 \end{figure}
 
-\noindent Oltre a ciò TCP implementa meccanismi di controllo del flusso che evitano la congestione della rete, garantendo una comunicazione efficiente anche in condizioni di carico elevato.
+\noindent Oltre a ciò \textbf{TCP} implementa meccanismi di controllo del flusso che evitano la congestione della rete, garantendo una comunicazione efficiente anche in condizioni di carico elevato.
 
-\noindent Ovviamente per garantire questi aspetti, ci sono compromessi, \textbf{TCP} infatti è un protocollo sensibilmente più "pesante" rispetto ad \textbf{UDP}. Nonostante la latenza di TCP, si è deciso di sfruttare il protocollo MQTT per l'affidabilità nella trasmissione. Questa scelta è stata dettata dalla necessità di garantire la consegna dei messaggi in modo sicuro e ordinato, anche in condizioni di rete instabili.
+\noindent Ovviamente per garantire questi aspetti, ci sono compromessi, \textbf{TCP} infatti è un protocollo sensibilmente più "pesante" rispetto ad \textbf{UDP}. Nonostante la latenza di \textbf{TCP}, si è deciso di sfruttare il protocollo MQTT per l'affidabilità nella trasmissione. Questa scelta è stata dettata dalla necessità di garantire la consegna dei messaggi in modo sicuro e ordinato, anche in condizioni di rete instabili.
 
 \subsection{Sicurezza}
 \noindent Nell'ambito dell'analisi di scenari di rete pubblica come il nostro, l'aspetto della sicurezza riveste un'importanza cruciale. In tale contesto, l'adozione di ROS per la guida remota potrebbe rivelarsi una scelta non ottimale.
