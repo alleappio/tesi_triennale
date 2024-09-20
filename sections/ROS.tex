@@ -1,34 +1,35 @@
-\section{ROS}
+\subsection{ROS}
 In questa sezione si passa alla descrizione di ROS, al suo funzionamento e al suo utilizzo.
 
-\subsection{Descrizione}
-Il Robotic Operating System (ROS), rappresenta un framework software di riferimento nel panorama della robotica. Si tratta di una suite di librerie e strumenti open-source progettata per semplificare e accelerare lo sviluppo di applicazioni complesse destinate a sistemi robotici di varia natura. ROS offre un'infrastruttura flessibile e modulare che consente agli sviluppatori di creare, testare e distribuire software in modo efficiente.
+\subsubsection{Descrizione}
+Il Robotic Operating System (ROS) rappresenta un framework software di riferimento nel panorama della robotica. Si tratta di una suite di librerie e strumenti open-source progettata per semplificare e accelerare lo sviluppo di applicazioni complesse destinate a sistemi robotici di varia natura. ROS offre un'infrastruttura flessibile e modulare che consente agli sviluppatori di creare, testare e distribuire software in modo efficiente.
 
-\noindent La scelta della versione di ROS è strettamente correlata alla distribuzione Linux utilizzata. In ambito robotico, Ubuntu è il sistema operativo più diffuso grazie alla sua stabilità e al supporto a lungo termine. Nel contesto del presente lavoro, è stata selezionata la distribuzione Ubuntu 20.04 Focal Fossa, in quanto rappresenta l'ultima versione LTS (Long Term Support) compatibile con la scheda grafica GPGPU adottata come computer di bordo.
+\noindent La scelta della versione di ROS è strettamente correlata alla distribuzione Linux utilizzata. In ambito robotico, Ubuntu è il sistema operativo più diffuso grazie alla sua stabilità e al supporto a lungo termine. Nel contesto del presente lavoro è stata selezionata la distribuzione Ubuntu 20.04 Focal Fossa, in quanto rappresenta l'ultima versione LTS (Long Term Support) compatibile con la scheda grafica GPGPU adottata come computer di bordo.
 
-\noindent In linea con questa scelta, è stata adottata la versione ROS2 Foxy Fitzroy che, Rispetto alla precedente generazione ROS1 (Noetic Ninjemys), introduce una serie di miglioramenti significativi, tra cui:
-
-\begin{itemize}
-  \item Supporto multi-linguaggio: ROS2 offre un supporto più ampio per diversi linguaggi di programmazione, tra cui C++ e Python. Tuttavia, nel caso specifico di questo progetto, si è optato per l'utilizzo esclusivo del C++ al fine di ottenere un controllo più granulare sul codice e sfruttare le elevate prestazioni offerte da questo linguaggio.
-  \item Modernizzazione delle librerie: Le librerie di ROS2 sono state aggiornate e ampliate, offrendo funzionalità più avanzate e una maggiore integrazione con altri strumenti software.
-  \item Architettura distribuita e scalabile: ROS2 è progettato per gestire sistemi robotici complessi e distribuiti, con una maggiore attenzione alla scalabilità e alla resilienza.
-\end{itemize}
-
-\noindent Nel corso di questa tesi tutta l'implementazione sarà svolta in linguaggio C++, questa decisione è stata guidata da diversi fattori:
+\noindent In linea con questa scelta, è stata adottata la versione ROS2 Foxy Fitzroy che, rispetto alla precedente generazione ROS1 (Noetic Ninjemys), introduce una serie di miglioramenti significativi, tra cui:
 
 \begin{itemize}
-  \item Controllo a basso livello: Il C++ consente un controllo più preciso sulle risorse hardware e software del sistema, permettendo di ottimizzare le prestazioni e di implementare algoritmi complessi in modo efficiente
-  \item Prestazioni elevate: Le elevate prestazioni che il C++ può fornire sono fondamentali in applicazioni robotiche real-time dove la latenza e la capacità di risposta del sistema sono critiche
-  \item Ampia diffusione e supporto: Data la sua vicinanza all'hardware, il C++ è il linguaggio più utilizzato nell'ambito della robotica, questo permette di avere molte librerie e strumenti a distribuzione, oltre che ad una maggiore facilità nella ricerca di soluzioni online a eventuali problemi.
+  \item Supporto multi-linguaggio: ROS2 offre un supporto più ampio per diversi linguaggi di programmazione, tra cui C++ e Python. Tuttavia, nel caso specifico di questo progetto, si è optato per l'utilizzo esclusivo del C++ al fine di ottenere un controllo più granulare sul codice e sfruttare le elevate prestazioni offerte da questo linguaggio
+  \item Modernizzazione delle librerie: le librerie di ROS2 sono state aggiornate e ampliate, offrendo funzionalità più avanzate e una maggiore integrazione con altri strumenti software
+  \item Architettura distribuita e scalabile: ROS2 è progettato per gestire sistemi robotici complessi e distribuiti, con una maggiore attenzione alla scalabilità e alla resilienza
 \end{itemize}
 
-\noindent Il pacchetto ROS, oltre a fornire le componenti software di base, offre un ampio ventaglio di strumenti per lo sviluppo e il debugging. Tra questi, RViz (ROS-Visualization) riveste un ruolo cruciale, fornendo una potente interfaccia di visualizzazione tridimensionale. Progettato specificatamente per operare all'interno dell'ecosistema ROS, RViz consente agli sviluppatori di visualizzare in modo intuitivo e dettagliato i dati provenienti dai sensori e dagli attuatori del robot. Durante la fase di sviluppo, RViz è stato utilizzato in modo estensivo per la visualizzazione dei dati di telemetria, facilitando la comprensione del funzionamento del sistema e l'individuazione di eventuali anomalie. La sua capacità di rappresentare in modo grafico le informazioni provenienti da diversi nodi del sistema ha reso RViz uno strumento indispensabile per la messa a punto e la validazione degli algoritmi di localizzazione.
+\noindent Nel corso di questa tesi l'implementazione del codice sarà interamente svolta in linguaggio C++. Questa decisione è stata guidata da diversi fattori:
 
-\subsection{Nodi}
-\noindent Uno degli aspetti fondamentali di ROS è la sua architettura basata su nodi, che rappresentano unità di esecuzione autonome all'interno del sistema. Un nodo può essere responsabile di una vasta gamma di funzioni, tra cui eseguire calcoli, interfacciarsi con dispositivi hardware, raccogliere dati dai sensori, e molto altro. Tuttavia, la caratteristica più distintiva di un nodo ROS è la sua capacità di comunicare in maniera integrata con altri nodi attraverso un sistema di messaggistica distribuita. Questo sistema consente ai nodi di scambiare informazioni in tempo reale, permettendo una coordinazione precisa e affidabile tra i diversi componenti di un robot.
+\begin{itemize}
+  \item Controllo a basso livello: il C++ consente un controllo più preciso sulle risorse hardware e software del sistema, permettendo di ottimizzare le prestazioni e di implementare algoritmi complessi in modo efficiente
+  \item Prestazioni elevate: le elevate prestazioni che il C++ può fornire sono fondamentali in applicazioni robotiche real-time dove la latenza e la capacità di risposta del sistema sono critiche
+  \item Ampia diffusione e supporto: data la sua vicinanza all'hardware, il C++ è il linguaggio di programmazione più utilizzato nell'ambito della robotica, in quanto permette di avere molteplici librerie e strumenti a disposizione, oltre che ad una maggiore facilità nella ricerca di soluzioni online a eventuali problemi
+\end{itemize}
+
+\noindent La suite ROS, oltre a fornire le componenti software di base, offre un ampio ventaglio di strumenti per lo sviluppo e il debugging. Tra questi, ROS-Visualization (RViz) riveste un ruolo cruciale, fornendo una potente interfaccia di visualizzazione tridimensionale. Progettato specificatamente per operare all'interno dell'ecosistema ROS, RViz consente agli sviluppatori di visualizzare in modo intuitivo e dettagliato i dati provenienti dai sensori e dagli attuatori del robot. Durante la fase di sviluppo, RViz è stato utilizzato in modo estensivo per la visualizzazione dei dati di telemetria, facilitando la comprensione del funzionamento del sistema e l'individuazione di eventuali anomalie. La sua capacità di rappresentare in modo grafico le informazioni provenienti da diversi nodi del sistema ha reso RViz uno strumento indispensabile per la messa a punto e la validazione degli algoritmi di localizzazione.
+
+\subsubsection{Nodi}
+\noindent Uno degli aspetti fondamentali di ROS è la sua architettura basata su nodi, che rappresentano la singola unità di esecuzione all'interno del sistema. Un nodo può essere responsabile di una vasta gamma di funzioni, tra cui eseguire calcoli, interfacciarsi con dispositivi hardware, raccogliere dati dai sensori, e molto altro. Tuttavia, la caratteristica più distintiva di un nodo ROS è la sua capacità di comunicare in maniera integrata con altri nodi attraverso un sistema di messaggistica distribuita. Questo sistema consente ai nodi di scambiare informazioni in tempo reale, permettendo una coordinazione precisa e affidabile tra i diversi componenti di un robot.
 
 \noindent Questa struttura modulare e comunicativa rende possibile la rappresentazione di ciascuna funzione operativa del robot come un nodo distinto, favorendo una chiara separazione delle responsabilità e una maggiore facilità di sviluppo e manutenzione. Ad esempio, lo stack software utilizzato per il controllo autonomo del rover all'interno di questo progetto è costituito da una serie di nodi ROS, ognuno dei quali svolge un ruolo specifico e critico nel funzionamento complessivo del sistema.
 
+\color{red}
 \noindent I principali nodi che compongono questo stack sono i seguenti:
 
 \begin{itemize}
@@ -42,7 +43,10 @@ Il Robotic Operating System (ROS), rappresenta un framework software di riferime
 \end{itemize}
 
 \noindent Tutti questi nodi operano in sinergia, scambiandosi informazioni critiche attraverso il sistema di messaggistica ROS, contribuendo all'esecuzione coordinata delle funzioni del robot. Questo approccio modulare e interconnesso consente di affrontare in modo efficiente le complesse esigenze operative del rover, garantendo una gestione robusta e scalabile delle diverse attività richieste durante la sua operazione autonoma e remota.
-\subsection{Comunicazione tra nodi}
+
+\color{black}
+
+\subsubsection{Comunicazione tra nodi}
 Sorge però spontaneo domandarsi come questi nodi comunichino tra loro e come facciamo soprattutto a riconoscere di che tipo di informazione si tratti.
 Una comunicazione ROS è formata da 3 elementi:
 \begin{itemize}
@@ -97,4 +101,5 @@ Una comunicazione ROS è formata da 3 elementi:
   \noindent Esistono molti tipi di dato forniti da ROS alcuni altri esempi sono l'ackermann message: che fornisce come dati principali una velocità ed un angolo di sterzo e viene utilizzato per comunicare al robot il movimento da compiere. Tutti i tipi di messaggio sono consultabili online sulla documentazione di ROS 
   \item Content: è il dato che dobbiamo inviare e che deve essere incapsulato nel tipo di dato fornitoci da ROS
 \end{itemize}
+
 
