@@ -20,7 +20,7 @@
       }
     },
     "covariance":{
-      ...
+      [...]
     }
   }
   "twist_with_covariance":{
@@ -37,7 +37,7 @@
       }
     },
     "covariance":{
-      ...
+      [...]
     }
   }
 }
