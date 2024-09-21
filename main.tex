@@ -10,11 +10,13 @@
 \usepackage[figurename=Figura]{caption}
 \usepackage{etoolbox}
 \usepackage[italian]{babel}
+%stacco tra paragrafi
+\usepackage[skip=5pt plus1pt, indent=0pt]{parskip}
+
+%interlinea
+\renewcommand{\baselinestretch}{1} 
 
 % Redefine \noindent to include vertical space before every occurrence
-\makeatletter
-\patchcmd{\noindent}{\ignorespaces}{{\vspace{50pt}}}{}{}
-\makeatother
 
 \titleformat{\section}[hang]{\normalfont\LARGE\bfseries}{Capitolo \thesection}{1em}{\vspace{1em}\hrule\vspace{1em}}[\vspace{1em}\hrule\vspace{1em}]
 \titleformat*{\subsection}{\normalfont\Large\bfseries}
@@ -81,4 +83,3 @@
 \bibliography{bibliography/bibl}{}
 
 \end{document}
-
