@@ -1,0 +1,11 @@
+\chapter*{Abstract}
+
+Col passare degli anni ci si approccia sempre di più a un mondo caratterizzato da una progressiva integrazione di sistemi automatici e connessi, che incide profondamente sulle modalità di interazione con l'ambiente e sulle abitudini di vita.
+
+\noindent La presente tesi esplora i concetti di guida autonoma e guida remota, due paradigmi emergenti nel settore dei trasporti che promettono di rivoluzionare la mobilità. La guida autonoma è caratterizzata da veicoli in grado di percepire l'ambiente circostante, pianificare traiettorie e eseguire manovre senza intervento umano diretto, la guida remota invece prevede che le decisioni relative alla guida siano prese a distanza da un operatore umano o da un sistema intelligente.
+
+\noindent L'analisi comparativa tra le due tecnologie evidenzia le loro specificità e potenzialità. La guida autonoma offre la prospettiva di veicoli completamente autonomi, in grado di operare in modo sicuro ed efficiente in una vasta gamma di scenari. La guida remota, da parte sua, consente di estendere le capacità di guida a veicoli non tradizionali o di operare in ambienti complessi.
+
+\noindent Il presente lavoro si concentra sullo sviluppo di un sistema di guida caratterizzato da una dualità funzionale: la capacità di operare sia in modalità autonoma che in modalità remota. Nello specifico per lo sviluppo è stato utilizzato un rover di marca AgileX come piattaforma di sviluppo, su cui sono stati montati una GPGPU Nvidia AGX Xavier come computer di bordo ed un sensore Lidar per l'analisi ambientale. Per permettere lo sviluppo dello stack di guida remota ci si è avvalsi del protocollo MQTT, ampiamente utilizzato nelle tecnologie IOT e della suite di librerie ROS utilizzato per permettere una gestione modulare delle varie funzionalità del robot.
+
+\noindent Il sistema, in conclusione si rivela funzionale, ma presenta alcune criticità relative alla latenza riscontrata nelle comunicazioni remote, con tempistiche misurate che si rivelano eccessive per l'ambito della guida remota, richiedendo dunque ulteriori approfondimenti ed eventuali miglioramenti nello stack realizzato.

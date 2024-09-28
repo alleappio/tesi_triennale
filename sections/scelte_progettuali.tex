@@ -1,9 +1,9 @@
-\section{Scelte progettuali}
+\chapter{Scelte progettuali}
 Una delle peculiarità di ROS è che non limita la comunicazione tra i nodi al solo device che esegue l'istanza, ma può distribuire i pacchetti pubblicati dai nodi anche tramite rete, avvalendosi del protocollo UDP. 
 
 Questo significa che per implementare la comunicazione necessaria al funzionamento della guida remota sarebbe stato suficiente sfruttare questa peculiarità di ROS. Si riporta nelle seguenti sezioni le motivazioni per le quali si è deciso di utilizzare invece lo stack MQTT.
 
-\subsection{Affidabilità}
+\section{Affidabilità} \label{scelte_progettuali_affidabilità}
 Come descritto precedentemente, il framework ROS prevede l'esclusivo utilizzo del protocollo UDP per l'invio di messaggi in rete. Il protocollo UDP è un protocollo a livello trasporto molto veloce e versatile, e viene soprattutto utilizzato in applicazioni orientate a minimizzare l'overhead e la latenza. Tuttavia, questa scelta comporta alcuni compromessi. 
 
 \noindent Essendo un protocollo connectionless, il protocollo UDP non garantisce la consegna dei pacchetti né il loro ordine di arrivo. Inoltre, non fornisce meccanismi di controllo dell'errore come la ritrasmissione automatica dei pacchetti persi. Di conseguenza, in ambienti con elevata interferenza o congestione di rete, si possono verificare perdite di dati e una degradazione della qualità del servizio.
@@ -25,14 +25,14 @@ Come descritto precedentemente, il framework ROS prevede l'esclusivo utilizzo de
 
 \noindent Tuttavia, il protocollo TCP è un protocollo sensibilmente più "pesante" e lento rispetto al protocollo UDP. Nonostante questo, la latenza introdotta dall'uso di questo protocollo risulta accettabile per il funzionamento del sistema e si è deciso di sfruttare il protocollo MQTT per l'affidabilità nella trasmissione. Questa scelta è stata dettata dalla necessità di garantire la consegna dei messaggi in modo sicuro e ordinato, anche in condizioni di rete instabili.
 
-\subsection{Sicurezza}
+\section{Sicurezza}
 \noindent Nell'ambito dell'analisi di scenari di rete pubblica come il nostro, l'aspetto della sicurezza riveste un'importanza cruciale. In questo contesto, l'adozione di ROS per la guida remota potrebbe rivelarsi una scelta non ottimale.
 
 \noindent ROS, nella sua configurazione standard, non prevede l'implementazione di meccanismi di sicurezza a livello di pacchetto. Di conseguenza, i dati scambiati tra i nodi della rete vengono trasmessi in chiaro, rendendoli potenzialmente accessibili a qualsiasi entità connessa alla rete. Questa vulnerabilità espone i sistemi a rischi di intercettazione, manipolazione o alterazione dei dati, con potenziali conseguenze negative sulla privacy e sulla sicurezza operativa.
 
 \noindent Al contrario, MQTT supporta nativamente lo strato di trasporto sicuro SSL/TLS, che fornisce una crittografia end-to-end dei dati scambiati tra i dispositivi. Questo significa che anche in caso di intercettazione delle comunicazioni, i dati rimarranno incomprensibili agli esterni.
 
-\subsection{Struttura}
+\section{Struttura}
 Nell'ambito della guida remota, la resilienza del sistema è un fattore critico. Un'infrastruttura deve essere in grado di operare in modo affidabile anche in condizioni avverse, garantendo la continuità del servizio e la sicurezza dei dati. In questo contesto, MQTT dimostra una maggiore resilienza rispetto a ROS. 
 
 \noindent MQTT è progettato per operare in ambienti distribuiti, con molti dispositivi connessi a un broker centrale. Questa architettura rende il sistema più resistente a guasti locali, poiché la perdita di un singolo dispositivo o di una connessione non compromette necessariamente l'intero sistema.
@@ -46,7 +46,7 @@ Nell'ambito della guida remota, la resilienza del sistema è un fattore critico.
   \label{struttura_ros}
 \end{figure}
 
-\subsection{Controllo del QoS}
+\section{Controllo del QoS}
 Un ulteriore punto da considerare è quella della gestione della Quality Of Service  (QoS). Il concetto di QoS indica il livello di garanzia che una rete offre per quanto riguarda la consegna dei dati. Una bassa QoS indica che i pacchetti non vengono consegnati correttamente o che addirittura non è certa la ricezione di questi messaggi.  
 
 \noindent Entrambi i protocolli offrono meccanismi di gestione della QoS, nelle seguenti modalità.

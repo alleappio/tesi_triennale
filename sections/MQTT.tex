@@ -1,4 +1,4 @@
-\subsection{MQTT} \label{mqtt}
+\section{MQTT} \label{mqtt}
 %In questa sezione si passa alla descrizione del protocollo di rete MQTT ed al perchè si è scelto di utilizzare questa tecnologia.
 
 %\subsubsection{Descrizione}
@@ -22,7 +22,7 @@ Il protocollo Message Queuing Telemetry Transport (MQTT) è un protocollo di ret
 
 \noindent Per l'implementazione dello stack MQTT ci si avvale, all'interno del progetto, della libreria paho.mqtt.cpp\cite{paho_cpp}, una libreria open source fornita dalla eclipse foundation.
 
-\subsubsection{Infrastruttura}
+\subsection{Infrastruttura}
 \noindent Il protocollo MQTT opera secondo un'architettura client-server, dove i client (dispositivi o applicazioni) si connettono a un server centrale (broker) che gestisce la distribuzione dei messaggi. I client che desiderano inviare dati pubblicano messaggi su specifici argomenti (topics), mentre i client interessati a ricevere quei dati si iscrivono (subscribe) agli stessi argomenti. Il broker, che agisce come intermediario, si occupa di ricevere i messaggi pubblicati e di inoltrarli a tutti i client iscritti agli argomenti corrispondenti.
 
 \begin{figure}[H]
@@ -40,7 +40,7 @@ Il protocollo Message Queuing Telemetry Transport (MQTT) è un protocollo di ret
 \end{itemize}
 Siccome i dati provenienti dal veicolo sono formattati secondo i tipi di dato ROS, per implementare la comunicazione tramite lo stack MQTT sarà necesasrio convertire questi dati in un formato compatibile con MQTT.
 
-\subsubsection{Formattazione messaggi}
+\subsection{Formattazione messaggi}
 I messaggi scambiati tramite protocollo MQTT si compongono fondamentlamente di stringhe di testo. È quindi necessario utilizzare una formattazione per il testo che renda possibile distinguere i vari campi di un messaggio ROS (la cui struttura è illustrata nella sezione precedente) che vogliamo inoltrare. Per questa motivazione si è deciso di avvalersi del formato JSON.
 
 \noindent Per fare un esempio, si illustra di seguito come un messaggio di odometria (illustrato nella sezione precedente) si presenterà in formato JSON:
@@ -49,7 +49,7 @@ I messaggi scambiati tramite protocollo MQTT si compongono fondamentlamente di s
 
 \noindent Come si può vedere, grazie a questa struttura, è possibile rappresentare fedelmente i dati riportati dal messaggio ROS.
 
-\subsubsection{Topic} \label{mqtt_topic}
+\subsection{Topic} \label{mqtt_topic}
 In MQTT, come in ROS, per gestire la comunicazione si utilizzano i topic, motivo per cui si è deciso di utilizzare MQTT per il controllo remoto. Questo fa si che per mettere in comunicazione i due sia sufficiente, una volta ricevuto il dato in ROS, generare l'analogo nel formato MQTT e viceversa.     
 
 \noindent È inoltre utile rendere nota la diversa struttura delle due tipologie di topic. Infatti, se per i topic ROS è utile utilizzare solo pochi identificatori, alle volte di una sola parola (eg. \textit{/drive\_parameters}, \textit{/scan}, \textit{/odometry}) dato che tutto il traffico ROS è presente solo all'interno del computer di bordo, per i topic MQTT è invece necessario utilizzare topic più lunghi, comprendenti diversi campi.

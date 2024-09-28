@@ -1,10 +1,10 @@
-\section{Funzionamento}
+\chapter{Funzionamento}
 Nella seguente sezione si descrive il funzionamento del veicolo, degli algoritmi utilizzati e dei nodi realizzati.
 
-\subsection{Stack di guida autonoma}
+\section{Stack di guida autonoma}
 La prima cosa che si analizza è il funzionamento dello stack di guida autonoma. Come descritto nel capitolo \ref{introduzione}, questo stack funziona grazie ai processi di perception, planning e control. 
 
-\subsubsection{Perception} \label{funzionamento_autonomo_perception}
+\subsection{Perception} \label{funzionamento_autonomo_perception}
 La parte di perception viene implementata avvalendosi delle informazioni del sensore Lidar e mediante la realizzazione dell'algoritmo di localizzazione, concretizzato nei seguenti nodi:
 \begin{itemize}
   \item \textbf{urg\_node}: è il nodo che permette di pubblicare sul topic ROS \textit{/scan} le pointcloud rilevate dal sensore Lidar. Il tipo di dato utilizzato è chiamato \textit{LaserScan} e fornisce la serie di distanze rilevate da Lidar.
@@ -16,7 +16,7 @@ La parte di perception viene implementata avvalendosi delle informazioni del sen
 
 %\noindent Di seguito un'immagine che dimostra intuitavemente il funzionamento del sensore Lidar durante la fase di localizzazione.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{figures/lidar_map.png}
   \caption{Dimostrazione funzionamento del sensore Lidar}
@@ -25,7 +25,7 @@ La parte di perception viene implementata avvalendosi delle informazioni del sen
 
 \noindent Figura \ref{funzionamento_particle_filter} llustra una breve dimostrazione del funzionamento del sensore Lidar. Nello specifico si riporta una porzione di mappa (grigia su sfondo nero) e la pointcloud generata dal sensore Lidar (punti colorati). Il colore dei punti non è casuale, ma è bensì un metodo intuitivo per mostrare graficamente la distanza di quel particolare punto dalla posizione calcolata del robot (freccia rossa).
 
-\subsubsection{Planning}
+\subsection{Planning}
 \noindent La parte di planning si avvale di due nodi:
 
 \begin{itemize}
@@ -33,7 +33,7 @@ La parte di perception viene implementata avvalendosi delle informazioni del sen
   \item \textbf{path\_publisher}: questo nodo si occupa di pubblicare un percorso preregistrato o precalcolato da seguire, pubblicato sul topic \textit{/path}.  
 \end{itemize}
 
-\subsubsection{Control}
+\subsection{Control}
 \noindent Si passa infine a descrivere il funzionamento della parte di controllo, composta anch'essa da due nodi:
 
 \begin{itemize}
@@ -49,7 +49,7 @@ La parte di perception viene implementata avvalendosi delle informazioni del sen
   \label{Schema rissuntivo dello stack di guida autonoma}
 \end{figure}
 
-\subsection{Guida remota}
+\section{Guida remota}
 Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, si passa alla descrizione di quella remota.
 
 \noindent La prima scelta tecnica è stata quella di decidere quale parte dello stack spostare in remoto. Per esempio, si potrebbe decidere di svolgere solo la parte di planning da remoto e lasciare in resto in locale, o diversamente, portare sin remoto solo la perception. Si potrebbe anche decidere di far eseguire solo specifici nodi da remoto e lasciare in resto in locale.
@@ -74,7 +74,7 @@ Una volta illustrato e compreso il funzionamento dello stack di guida autonoma, 
   \label{Schema rissuntivo dello stack di guida remota}
 \end{figure}
 
-\subsection{Nodi sviluppati}
+\section{Nodi sviluppati}
 Oltre ai nodi già compresi nello stack di guida autonoma, è stato necessario sviluppare i nodi che permettessero lo scambio di informazioni tra il veicolo e il server. Nello specifico, i 3 nodi sono:
 \begin{itemize}
     \item \textbf{mqtt\_telemetry\_node}: ha il compito di inviare i dati dei sensori dal veicolo al server
@@ -88,7 +88,7 @@ Oltre ai nodi già compresi nello stack di guida autonoma, è stato necessario s
 
 \noindent È inoltre utile specificare che l'intera codebase è scritta in linguaggio C++, che risulta utile qualora sia necessario avere bassi tempi di esecuzione.
 
-\subsubsection{MQTT telemery node} \label{mqtt_telemetry_node}
+\subsection{MQTT telemery node} \label{mqtt_telemetry_node}
 La prima fase del progetto ha riguardato lo sviluppo di un componente software, ovvero un nodo ROS, in grado di interfacciarsi con i sensori del veicolo. Questo nodo, una volta configurato per sottoscriversi ai topic di interesse, è in grado di acquisire i dati provenienti dai sensori e di trasformarli in un formato adatto alla trasmissione. La scelta del formato JSON, ampiamente utilizzato per lo scambio di dati tra sistemi eterogenei, è stata dettata dalla sua leggibilità e dalla sua facilità di parsing. I dati, una volta formattati, vengono inviati al server MQTT.
 
 \noindent I topic a cui il nodo effettua una subscribe sono:
@@ -121,7 +121,7 @@ La prima fase del progetto ha riguardato lo sviluppo di un componente software, 
   \item \textbf{topic\_manager}: è la classe designata ad accoppiare i topic ROS con i rispettivi topic MQTT, il cui codice è incluso nella sezione \ref{gestione_dei_topic} 
 \end{itemize}
 
-\subsubsection{MQTT remote control} \label{mqtt_remote_control}
+\subsection{MQTT remote control} \label{mqtt_remote_control}
 Successivamente, è fondamentale predisporre un meccanismo che consenta al veicolo di ricevere i comandi di controllo. A tal fine, è stato implementato un nodo dedicato che si sottoscrive al topic MQTT specificamente designato per la trasmissione di tali dati. Successivamente, il nodo ripubblica le informazioni ricevute sul topic ROS \textit{/drive\_parameters}.
 
 \noindent Poiché i dati trasmessi tramite MQTT sono di tipo stringa, il veicolo dovrà elaborare queste stringhe al fine di estrarre le informazioni pertinenti e popolarne i campi di un messaggio ROS conforme al tipo di dato previsto, esattamente come descritto nella sezione 4.3.
@@ -137,7 +137,7 @@ Successivamente, è fondamentale predisporre un meccanismo che consenta al veico
 
 \noindent In questo caso non è stato necessario l'utilizzo della classe \textbf{topic\_manager} in quanto gli unici due topic in gioco (quello ROS e quello MQTT) sono entrambe impostabili da file di configurazione yaml.
 
-\subsubsection{MQTT server node}
+\subsection{MQTT server node}
 È stato infine implementato un nodo centrale, eseguito sul server, che funge da ponte di comunicazione tra il veicolo e l'istanza ROS del server stesso. Questo nodo è responsabile della ricezione di tutti i dati trasmessi dal veicolo tramite il protocollo MQTT e della loro successiva pubblicazione sul bus ROS. Contestualmente, il nodo si occupa di raccogliere i comandi di controllo generati all'interno dell'ambiente ROS, di incapsularli in un messaggio MQTT e di inoltrarlo al veicolo.
 
 \noindent Il nodo in questo caso è suddiviso in 8 classi, alcune delle quali sono prese dai due nodi prima implementati:
@@ -154,7 +154,7 @@ Successivamente, è fondamentale predisporre un meccanismo che consenta al veico
   \item \textbf{topic\_manager}: già riportato alla sezione \ref{mqtt_telemetry_node}
 \end{itemize}
 
-\subsection{Gestione dei topic} \label{gestione_dei_topic}
+\section{Gestione dei topic} \label{gestione_dei_topic}
 Come descritto nella sezione \ref{mqtt_topic}, i topic ROS utilizzati hanno una struttura sostanzialmente diversa da quelli MQTT. Ai fini del progetto è stata dunque sviluppata una classe chiamata \textit{topic\_manager} che semplifica la gestione di questi due tipi di dati. La classe comprende 4 semplici metodi, 2 che riguardano il get ed il set di topic ROS e 2 che riguardano il get e il set dei topic MQTT, ad ogni topic MQTT è associato uno ROS e viceversa, di seguito i 4 metodi:
 
 \lstinputlisting{samples/topic_manager.cpp}

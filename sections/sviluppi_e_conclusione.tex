@@ -1,14 +1,14 @@
-\section{Sviluppi futuri e conclusioni}
+\chapter{Sviluppi futuri e conclusioni}
 In questo capitolo si vanno ad analizzare quali sono state le principali complicazioni che si sono riscontrate durante lo sviluppo, quali sono i punti da migliorare, eventuali soluzioni, sviluppi futuri e applicazioni pratiche della tesi.
 
-\subsection{Problemi ed eventuali soluzioni}
+\section{Problemi ed eventuali soluzioni}
 Il primo dubbio riguardo il progetto descritto in questa tesi è sicuramente quello della latenza di rete: applicazioni come quella della guida autonoma richiedono l'esecuzione real time, ovvero che l'esecuzione di ogni singolo pezzo dello stack segue tempi predefiniti (chiamati deadline) anche nel caso peggiore.  
 
 \noindent Sorge spontanea una riflessione circa l'impatto dell'utilizzo della rete sulla puntualità dell'esecuzione delle attività. L'integrazione di reti di comunicazione in applicazioni real-time, infatti, introduce un elemento di incertezza non trascurabile, in quanto la qualità della connessione può variare significativamente, compromettendo il rispetto delle tempistiche previste. Anche in condizioni di rete ottimali, l'introduzione di protocolli di comunicazione, seppur efficienti come MQTT, comporta un overhead di sistema che può influire negativamente sulla latenza e, di conseguenza, sulla tempestività delle operazioni.
 
 \noindent È possibile mitigare, seppur parzialmente, le problematiche legate alla variabilità della latenza di rete attraverso l'implementazione di meccanismi di Quality of Service (QoS). Riducendo il livello di QoS, è possibile diminuire l'overhead associato ai controlli di protocollo e conseguentemente ottimizzare le prestazioni in termini di latenza. Tuttavia, questa scelta comporta un compromesso significativo in termini di affidabilità, poiché la riduzione dei controlli aumenta la probabilità di perdita di pacchetti. Analogamente, la selezione del protocollo di trasporto incide in modo determinante sulla latenza. Mentre il protocollo UDP, caratterizzato da un overhead ridotto, offre latenze inferiori, il protocollo TCP, garantendo la consegna affidabile dei dati, introduce un overhead maggiore e può comportare latenze più elevate. La scelta ottimale tra UDP e TCP dipende dal bilanciamento tra i requisiti di performance e affidabilità dell'applicazione.
 
-\subsection{Sviluppi futuri}
+\section{Sviluppi futuri}
 Sebbene il progetto abbia raggiunto gli obiettivi prefissati, è evidente la necessità di integrare ulteriori funzionalità per consentirne l'utilizzo in contesti applicativi reali. 
 
 \noindent In particolare, l'implementazione di un sistema di sicurezza informatica robusto rappresenta una priorità assoluta. Tale sistema dovrà garantire la protezione dei dati del mezzo mediante l'adozione di tecniche di crittografia e offuscamento, al fine di mitigare i rischi connessi alla trasmissione di informazioni sensibili su reti pubbliche.
@@ -21,7 +21,7 @@ Sebbene il progetto abbia raggiunto gli obiettivi prefissati, è evidente la nec
 
 \noindent Sarà infine cruciale per una valutazione completa, è necessario effettuare test in situazioni reali, simulando le potenziali limitazioni della rete e le complessità tipiche degli ambienti di utilizzo.
 
-\subsection{Applicazioni pratiche}
+\section{Applicazioni pratiche}
 Per concludere, si esamineranno le potenziali applicazioni concrete di questa innovazione.
 
 \noindent In linea con le precedenti considerazioni, si prospetta l'opportunità di implementare flotte di veicoli semiautonomi in rete, appositamente progettate per il trasporto. L'adozione di rover autonomi in grado di operare in ambienti industriali di grandi dimensioni, movimentando ingenti quantitativi di materiali, costituirebbe un volano per l'innovazione tecnologica all'interno dell'azienda.

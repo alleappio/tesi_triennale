@@ -1,4 +1,4 @@
-\subsection{ROS} \label{ROS}
+\section{ROS} \label{ROS}
 %In questa sezione si passa alla descrizione di ROS, al suo funzionamento e al suo utilizzo.
 
 %\subsubsection{Descrizione}
@@ -24,14 +24,14 @@ Il Robotic Operating System (ROS) rappresenta un framework software di riferimen
 
 \noindent La suite ROS, oltre a fornire le componenti software di base, offre un ampio ventaglio di strumenti per lo sviluppo e il debugging. Tra questi, ROS-Visualization (RViz) riveste un ruolo cruciale, fornendo una potente interfaccia di visualizzazione tridimensionale. Progettato specificatamente per operare all'interno dell'ecosistema ROS, RViz consente agli sviluppatori di visualizzare in modo intuitivo e dettagliato i dati provenienti dai sensori e dagli attuatori del robot. Durante la fase di sviluppo, RViz è stato utilizzato in modo estensivo per la visualizzazione dei dati di telemetria, facilitando la comprensione del funzionamento del sistema e l'individuazione di eventuali anomalie. La sua capacità di rappresentare in modo grafico le informazioni provenienti da diversi nodi del sistema ha reso RViz uno strumento indispensabile per la messa a punto e la validazione degli algoritmi di localizzazione.
 
-\subsubsection{Nodi}
+\subsection{Nodi}
 \noindent Uno degli aspetti fondamentali di ROS è la sua architettura basata su nodi, che rappresentano la singola unità di esecuzione all'interno del sistema. Un nodo può essere responsabile di una vasta gamma di funzioni, tra cui eseguire calcoli, interfacciarsi con dispositivi hardware, raccogliere dati dai sensori, e molto altro. Tuttavia, la caratteristica più distintiva di un nodo ROS è la sua capacità di comunicare in maniera integrata con altri nodi attraverso un sistema di messaggistica distribuita. Questo sistema consente ai nodi di scambiare informazioni in tempo reale, permettendo una coordinazione precisa e affidabile tra i diversi componenti di un robot.
 
 \noindent Questa struttura modulare e comunicativa rende possibile la rappresentazione di ciascuna funzione operativa del robot come un nodo distinto, favorendo una chiara separazione delle responsabilità e una maggiore facilità di sviluppo e manutenzione. Ad esempio, lo stack software utilizzato per il controllo autonomo del rover all'interno di questo progetto è costituito da una serie di nodi ROS, ognuno dei quali svolge un ruolo specifico e critico nel funzionamento complessivo del sistema.
 
 \noindent Si può dunque concepire lo stack come un sistema in cui ciascun nodo è deputato a una specifica funzione. Ad esempio, un nodo gestisce esclusivamente la localizzazione, un altro è interamente dedicato alla trasmissione dei dati da ROS all'interfaccia di controllo del veicolo, e un terzo calcola la traiettoria. Questa suddivisione modulare consente una chiara separazione delle responsabilità, favorendo una maggiore manutenibilità e flessibilità del sistema e mentre ciascun nodo è responsabile di un sottoinsieme ben definito delle funzionalità, essi sono interconnessi e si scambiano attivamente le informazioni necessarie per coordinare le loro azioni.
 
-\subsubsection{Comunicazione tra nodi}
+\subsection{Comunicazione tra nodi}
 La comunicazione tra nodi ROS è basata su 3 elementi fondamentali:
 \begin{itemize}
   \item Topic: il protocollo utilizzato da ROS è di tipo publish/subscribe, il quale prevede che durante l'esecuzione dei nodi si vadano a creare dei topic, ovvero stringhe che utilizzano come separatore il carattere '/' e che permettono di smistare i diversi dati da inviare e/o ricevere. Un esempio sono le scan lidar che vengono pubblicate sul topic "/scan". Ogni nodo può decidere sottoscriversi (subscribe) ad un certo topic, ovvero ricevere tutti i dati inviati attraverso esso, pubblicare dati (publish), ovvero pubblicare dati su di esso, o se semplicemente ignorarlo
