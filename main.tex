@@ -47,7 +47,7 @@
 
 % Redefine \noindent to include vertical space before every occurrence
 
-\titleformat{\chapter}[hang]{\normalfont\LARGE\bfseries}{Capitolo \thesection}{1em}{\vspace{1em}\hrule\vspace{1em}}[\vspace{1em}\hrule\vspace{1em}]
+\titleformat{\chapter}[hang]{\normalfont\LARGE\bfseries}{Capitolo \thechapter}{0em}{\vspace{1em}\hrule\vspace{1em}}[\vspace{1em}\hrule\vspace{-0.5em}]
 %\titleformat*{\subsection}{\normalfont\Large\bfseries}
 %\titleformat*{\subsubsection}{\large\bfseries}
 %\titleformat*{\paragraph}{\large\bfseries}
@@ -72,7 +72,7 @@
 \begin{document}
     \lstset{
       language=C++,                     % Linguaggio del codice
-      basicstyle=\ttfamily\color{pc_text},   % Stile di base: monospazio e colore del testo
+      basicstyle=\footnotesize\ttfamily\color{pc_text},   % Stile di base: monospazio e colore del testo
       backgroundcolor=\color{pc_background}, % Colore di sfondo
       commentstyle=\color{pc_comment},       % Colore dei commenti
       keywordstyle=\color{pc_keyword}\bfseries, % Colore e stile delle parole chiave
@@ -84,22 +84,31 @@
       numberstyle=\tiny\color{gray},    % Stile della numerazione
       numbers=left                     % Numerazione delle righe a sinistra
     }
-    
+
+    \frontmatter
     \includepdf[pages={1}]{frontespizio_tesi.pdf}
-    
+    \newpage
+    \thispagestyle{empty}
+    \cleardoublepage
+    \newpage
     \null \vspace {\stretch {1}}
     \begin{flushright}
     \textit{Alla mia famiglia}
     \end{flushright}
     \vspace {\stretch {2}}\null
-    
+    \thispagestyle{empty}
     \newpage
+    \thispagestyle{empty}
     \cleardoublepage
     \newpage
+    \setcounter{page}{1}
     \input{sections/abstract}
     \newpage
     \input{sections/index.tex}
     \newpage
+
+    \mainmatter
+    
     \input{sections/introduzione.tex}
     \newpage
     \input{sections/piattaforma_di_sviluppo.tex}
@@ -116,6 +125,8 @@
     \input{sections/test_svolti.tex}
     \newpage
     \input{sections/sviluppi_e_conclusione.tex}
+    \newpage
+    \input{sections/ringraziamenti.tex}
     
     \newpage
     

@@ -1,5 +1,5 @@
 \chapter{Validazione sperimentale}
-In questa sezione si elencano i vari test che sono stati svolti, i problemi riscontrati e le soluzioni trovate.
+La presente sezione è dedicata alla presentazione dei risultati ottenuti attraverso una serie di test sperimentali. Vengono descritte le diverse prove effettuate e le criticità riscontrate durante il loro svolgimento.
 
 \section{Controllo}
 La prima fase sperimentale è stata dedicata alla verifica funzionale dei driver e del nodo ROS forniti da AgileX per il rover modello Hunter. L'obiettivo primario era determinare se tali componenti, specificamente progettati per il controllo e l'analisi del veicolo, potessero essere integrati nel sistema senza richiedere modifiche sostanziali o se, al contrario, fosse necessario apportare adattamenti o addirittura una completa riscrittura.
@@ -24,6 +24,8 @@ Il secondo test è stato quello di eseguire una mappatura bidimensionale di un i
 
 \noindent Dopo una fase di configurazione iniziale e alcune prove preliminari, è stato possibile generare una mappa bidimensionale accurata del primo piano dell'edificio di matematica del Dipartimento di Scienze Fisiche, Matematiche e Informatiche dell'Università di Modena e Reggio Emilia (UNIMORE). La mappa ottenuta rappresenta una fedele rappresentazione planimetrica dell'ambiente, evidenziando con precisione gli ostacoli presenti e le caratteristiche geometriche delle pareti
 
+\noindent La mappa ottenuta grazie a questi test è riportata in figura \ref{franco_map}.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{figures/franco_map.png}
@@ -31,8 +33,6 @@ Il secondo test è stato quello di eseguire una mappatura bidimensionale di un i
   \label{franco_map}
 \end{figure}
 
-
-\noindent La mappa ottenuta grazie a questi test è riportata in figura \ref{franco_map}.
 \section{Localizzazione}
 Il terzo test è stato uno dei più importanti, e riguarda la localizzazione.
 
@@ -54,17 +54,23 @@ In conclusione, sono stati svolti test per quanto concerne la guida remota. Nell
 
 \noindent Le verifiche effettuate hanno confermato il corretto funzionamento degli applicativi, sebbene abbiano messo in luce alcune inefficienze. Tra queste, la latenza nella comunicazione tra veicolo e stazione di controllo è risultata particolarmente critica. Il tempo di risposta, misurato tra l'invio di un comando dal gamepad e la corrispondente azione del veicolo, ha mostrato valori elevati, rendendo l'applicazione non idonea a scenari che richiedono tempi di reazione rapidi come la guida remota.
 
-\noindent Gli stessi tempi di latenza di questo test sono stati anche riscontrati nelle prove che riguardavano la telemetria: l'invio di dati da parte del mezzo che riguardano i sensori a bordo al server.
+\section{Latenza}
+Successivamente ai test di guida remota sono stati eseguite delle misurazioni di invio e ricezione dei pacchetti per verificare la latenza generata dallo stack. 
 
-\noindent Per facilitare la ripetibilità e l'analisi dei dati, durante il test è stato generato un rosbag, ovvero un file eseguibile contenente una registrazione completa dei messaggi scambiati tra i nodi del sistema ROS. Grazie a questa risorsa, è stato possibile condurre multiple iterazioni di test sulla latenza senza la necessità di rieseguire fisicamente le manovre del rover.
+\noindent Per facilitare la ripetibilità e l'analisi dei dati, durante i test di guida autonoma sono stati generati diversi file rosbag, ovvero file eseguibili contenenti una registrazione completa dei messaggi scambiati tra i nodi del sistema ROS durante la loro esecuzione. Grazie a questa risorsa, è stato possibile condurre multiple iterazioni di test sulla latenza senza la necessità di rieseguire fisicamente le manovre del rover.
 
-\noindent Le misurazioni di latenza sono state effettuate eseguendo il rosbag e applicando un timestamp ai messaggi prima della trasmissione MQTT, registrando poi un secondo timestamp al momento della ricezione. La differenza temporale tra i due istanti, rappresentativa della latenza del sistema, è stata quindi memorizzata in un file di log.
+\noindent Le misurazioni di latenza sono state effettuante in due battute, prima per i messaggi di telemetria e in un secondo momento per i messaggi di controllo. Nello specifico nel primo è stato configurato un sistema composto dal nodo \textbf{mqtt\_telemetry\_node} e dal nodo \textbf{mqtt\_server\_node} per inviare i dati di telemetria al server tramite il protocollo MQTT. Successivamente, il focus si è spostato sull'analisi dei messaggi di controllo, attivando il nodo \textbf{mqtt\_server\_node} e il nodo di \textbf{mqtt\_control\_node} per scambiare messaggi di tipo 
+ di controllo dal nodo server a quello di controllo sempre tramite protocollo MQTT.
 
-\noindent Il file di log è stato poi analizzato tramite un semplice script python per estrarre i dati statistici riportati in tabella \ref{tabella_latenza}
+\noindent Tutte le sperimentazioni sono state condotte su un'unica workstation, avviando contemporaneamente i nodi e il file rosbag al fine di garantire la sincronizzazione dei timestamp. Sebbene l'esperimento non abbia coinvolto una comunicazione diretta tra un server ed il rover, scelta data dalla difficoltà di sincronizzare i timestamp di rover e server, i risultati ottenuti sono ritenuti validi in quanto il tempo di trasmissione dei messaggi non risulta significativamente influenzato dall'architettura hardware su cui i nodi di comunicazione sono eseguiti.
+
+\noindent Per ogni sessione di misurazione veniva avviato il rosbag e ad ogni ricezione di un messaggio ROS il nodo incaricato dell'invio dei dati applicava il timestamp ai messaggi prima della trasmissione MQTT. Il nodo di ricezione era poi incaricato di registrare un secondo timestamp. La differenza temporale tra i due istanti, rappresentativa della latenza del sistema, è stata quindi memorizzata in un file di log.
+
+\noindent I file di log venivano poi analizzati da un semplice script python per estrarre i dati statistici riportati in tabella \ref{tabella_latenza} ed il grafico a candela in figura \ref{latency_graph}.
 
 \begin{center}
-  \begin{table}[h]
-  \centering
+  \begin{table}
+    \centering
     \begin{tabular}{|c|c|c|c|}
     \hline
       tipo & Media ($ms$) & Varianza ($ms^2$) & Numero di sample\\ 
@@ -81,17 +87,19 @@ In conclusione, sono stati svolti test per quanto concerne la guida remota. Nell
   \end{table}
 \end{center}
 
-\noindent Come è possibile vedere dai dati mediamente si riscontra una latenza tra i 600 e i 700 millisecondi per quanto riguarda i messaggi dei sensori (odometria e scan), mentre per i messaggi di controllo (ackermann) si riscontrano valori più elevati, tra i 700 e gli 800 millisecondi. Questi alti valori di latenza riscontrati sono dovuti a vari fattori. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/grafico_latenze.png}
+    \caption{Latenze medie dei pacchetti messe a confronto}
+    \label{latency_graph}
+\end{figure}
+
+\noindent Come è possibile vedere dai dati, mediamente si riscontra una latenza tra i 600 e i 700 millisecondi per quanto riguarda i messaggi dei sensori (odometria e scan), mentre per i messaggi di controllo (ackermann) si riscontrano valori più elevati, tra i 700 e gli 800 millisecondi. Questi alti valori di latenza riscontrati sono dovuti a vari fattori. 
 
 \noindent In primo luogo fra tutti la complessità del protocollo MQTT. Come discusso nella sezione \ref{scelte_progettuali_affidabilità}, le procedure di conferma di ricezione e di ritrasmissione dei messaggi, pur essenziali per garantire la robustezza delle comunicazioni, introducono inevitabilmente ritardi nella trasmissione dei dati.
 
 \noindent In secondo luogo, il mezzo di trasmissione utilizzato, ovvero una rete Wi-Fi, ha limitato le prestazioni del sistema. La tecnologia Wi-Fi, sebbene ampiamente diffusa, presenta caratteristiche intrinseche che possono influenzare negativamente la latenza, come la variabilità del segnale, l'interferenza con altre reti wireless e la saturazione del canale. A differenza di tecnologie più recenti come il 5G, che offrono una banda più elevata e una latenza significativamente inferiore, la rete Wi-Fi può costituire un collo di bottiglia nelle applicazioni che richiedono tempi di risposta estremamente rapidi.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/grafico_latenze.png}
-\caption{Latenze medie dei pacchetti messe a confronto}
-\label{latency_graph}
-\end{figure}
-
 \noindent Il grafico a candela di Figura \ref{latency_graph} evidenzia la notevole variabilità dei tempi di trasmissione. Questa alta instabilità, insieme ai dati in tabella \ref{tabella_latenza} avvalorano l'ipotesi che l'utilizzo di una rete Wi-Fi non sia ottimale per questo tipo di applicazione.
+

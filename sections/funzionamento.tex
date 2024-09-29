@@ -1,5 +1,5 @@
 \chapter{Funzionamento}
-Nella seguente sezione si descrive il funzionamento del veicolo, degli algoritmi utilizzati e dei nodi realizzati.
+Nella seguente sezione si descrive il funzionamento degli stack di guida autonoma e di guida remota del veicolo, degli algoritmi utilizzati e dei nodi realizzati.
 
 \section{Stack di guida autonoma}
 La prima cosa che si analizza è il funzionamento dello stack di guida autonoma. Come descritto nel capitolo \ref{introduzione}, questo stack funziona grazie ai processi di perception, planning e control. 
@@ -14,11 +14,9 @@ La parte di perception viene implementata avvalendosi delle informazioni del sen
   \item \textbf{particle\_filter}: implementa un algoritmo di localizzazione basato sull'utilizzo di un particle filter e un algoritmo di ray casting. Il suo funzionamento sfrutta la mappa dell'ambiente in cui il robot si sta muovendo, l'odometria del veicolo e la pointcloud del sensore Lidar per il calcolo della posizione. Questo dato viene poi pubblicato sul topic \textit{/pf/position} sottoforma di dato \textit{Odometry}.
 \end{itemize}
 
-%\noindent Di seguito un'immagine che dimostra intuitavemente il funzionamento del sensore Lidar durante la fase di localizzazione.
-
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{figures/lidar_map.png}
+  \includegraphics[width=0.7\textwidth]{figures/lidar_map.png}
   \caption{Dimostrazione funzionamento del sensore Lidar}
   \label{funzionamento_particle_filter}
 \end{figure}
